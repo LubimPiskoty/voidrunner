@@ -2,29 +2,45 @@ package sk.piskotka;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javafx.scene.paint.Color;
-import sk.piskotka.physics.GameObject;
+import sk.piskotka.enviroment.Asteroid;
+import sk.piskotka.physics.PhysicsBody;
 import sk.piskotka.physics.Vec2;
 import sk.piskotka.render.Renderer;
 import sk.piskotka.ship.PlayerShip;
 
 public class GameManager {
+    private static GameManager instance;
     public static boolean isRunning = true;
     public double targetFrametime;
-    private List<GameObject> world;
+    public Random randomGenerator;
+    private List<PhysicsBody> world;
     private Renderer ctx;
+    private PlayerShip player;
 
     public GameManager(Renderer ctx) {
+        // Create the singleton
+        if (instance == null)
+            instance = this;
+        else
+            throw new Error("GameManager singleton was already created! There can only be one instance of GameManager");
+        
+        // Init create all other variables
         this.targetFrametime = 0.016;
         this.ctx = ctx;
         System.out.println("Game is starting");
+        randomGenerator = new Random();
+        player = new PlayerShip(ctx.getWidth()/2, ctx.getHeight()/2);
         world = new ArrayList<>();
-        world.add(new PlayerShip());
+        
+        CreateEntity(player);
+
+        CreateEntity(new Asteroid(300, 300, Math.PI/12).randomized());
     }
 
     void processEvents(List<String> inputs, Vec2 mousePos){
-        PlayerShip p = ((PlayerShip)world.get(0));
         Vec2 inputVec = Vec2.ZERO();
         if (inputs.contains("W"))
             inputVec.add(Vec2.DOWN());
@@ -35,19 +51,19 @@ public class GameManager {
         if (inputs.contains("D"))
             inputVec.add(Vec2.RIGHT());
         if (inputs.contains("PRIMARY"))
-            p.shoot();
+            player.shoot();
         
-        p.move(inputVec);
-        p.aim(mousePos);
+        player.move(Vec2.normalized(inputVec));
+        player.aim(mousePos);
     }
 
     void updateWorld(double dt){
-        for(GameObject o : world)
+        for(PhysicsBody o : world)
             o.update(dt);
     }
 
     void renderFrame(Renderer ctx){
-        for(GameObject o : world)
+        for(PhysicsBody o : world)
             o.draw(ctx);
     }
 
@@ -61,5 +77,16 @@ public class GameManager {
             ctx.updateScreen();
         }
     }
+
+    public void CreateEntity(PhysicsBody pBody){
+        world.add(pBody);
+    }
+
+    public void DestroyEntity(PhysicsBody pBody){
+        world.remove(pBody);
+    }
     
+    public static GameManager getInstance(){
+        return instance;
+    }
 }

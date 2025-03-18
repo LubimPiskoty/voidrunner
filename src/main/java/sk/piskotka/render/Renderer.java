@@ -14,6 +14,14 @@ import sk.piskotka.physics.Vec2;
 
 public class Renderer {
     private int width, height;
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
     private int[] pixels;
     private PixelBuffer<IntBuffer> pixelBuffer;
 

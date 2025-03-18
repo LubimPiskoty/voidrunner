@@ -1,5 +1,9 @@
 package sk.piskotka.physics;
 
+import java.util.Random;
+
+import sk.piskotka.GameManager;
+
 public final class Vec2 {
     double x, y;
 
@@ -42,6 +46,12 @@ public final class Vec2 {
         return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }
 
+    public void normalize(){
+        double l = length();
+        this.x /= l;
+        this.y /= l;
+    }
+
     // Static methods
     public static Vec2 add(Vec2 first, Vec2 second){
         return new Vec2(first.x + second.x, first.y + second.y);
@@ -53,6 +63,15 @@ public final class Vec2 {
 
     public static Vec2 subtract(Vec2 first, Vec2 second){
         return new Vec2(Vec2.add(first, Vec2.multiply(second, -1)));
+    }
+
+    public static Vec2 normalized(Vec2 v){
+        double l = v.length();
+        if (l == 0)
+            return v;
+        v.x /= l;
+        v.y /= l;
+        return v;
     }
 
     public static Vec2 ZERO(){
@@ -73,6 +92,13 @@ public final class Vec2 {
     }
     public static Vec2 RIGHT(){
         return new Vec2(1, 0);
+    }
+
+    public static Vec2 RandomUnit(){
+        Random rand = GameManager.getInstance().randomGenerator;
+        Vec2 v = new Vec2(rand.nextDouble()-0.5, rand.nextDouble()-0.5);
+        v.normalize();
+        return v;
     }
 
     public String toString(){

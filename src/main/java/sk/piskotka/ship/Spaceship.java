@@ -1,12 +1,12 @@
 package sk.piskotka.ship;
 
-import sk.piskotka.physics.GameObject;
+import sk.piskotka.physics.PhysicsBody;
 import sk.piskotka.physics.Vec2;
 
-public abstract class Spaceship extends GameObject{
-    float speed;
+public abstract class Spaceship extends PhysicsBody{
 
-    protected Spaceship(float speed) {
+    protected Spaceship(int x, int y, float speed) {
+        super(x, y);
         this.speed = speed;
     }
 
