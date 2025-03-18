@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.paint.Color;
-import sk.piskotka.Physics.GameObject;
-import sk.piskotka.Physics.Vec2;
+import sk.piskotka.physics.GameObject;
+import sk.piskotka.physics.Vec2;
 import sk.piskotka.render.Renderer;
 import sk.piskotka.ship.PlayerShip;
 
@@ -23,7 +23,7 @@ public class GameManager {
         world.add(new PlayerShip());
     }
 
-    void processEvents(List<String> inputs){
+    void processEvents(List<String> inputs, Vec2 mousePos){
         PlayerShip p = ((PlayerShip)world.get(0));
         Vec2 inputVec = Vec2.ZERO();
         if (inputs.contains("W"))
@@ -34,8 +34,11 @@ public class GameManager {
             inputVec.add(Vec2.LEFT());
         if (inputs.contains("D"))
             inputVec.add(Vec2.RIGHT());
+        if (inputs.contains("PRIMARY"))
+            p.shoot();
         
         p.move(inputVec);
+        p.aim(mousePos);
     }
 
     void updateWorld(double dt){
@@ -48,13 +51,14 @@ public class GameManager {
             o.draw(ctx);
     }
 
-    public void run(List<String> inputs, double dt) {
+    public void run(List<String> inputs, Vec2 mousePos, double dt) {
         //System.out.println("Events: " + inputs);
         if (isRunning){
             ctx.clearScreen(Color.BLACK);
-            processEvents(inputs);
+            processEvents(inputs, mousePos);
             updateWorld(dt);
             renderFrame(ctx);
+            ctx.updateScreen();
         }
     }
     

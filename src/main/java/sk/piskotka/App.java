@@ -3,29 +3,18 @@
  */
 
 package sk.piskotka;
-
-import java.nio.IntBuffer;
 import java.util.ArrayList;
-import java.util.List;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.PixelBuffer;
-import javafx.scene.image.PixelFormat;
-import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import sk.piskotka.Physics.GameObject;
-import sk.piskotka.Physics.Vec2;
+import sk.piskotka.physics.Vec2;
 import sk.piskotka.render.Renderer;
-import sk.piskotka.ship.PlayerShip;
-import sk.piskotka.ship.Spaceship;
 /**
  *
 * @author piskotka
@@ -49,6 +38,7 @@ public class App extends Application{
 
         // Input handeling
         ArrayList<String> input = new ArrayList<String>();
+        Vec2 mousePos = Vec2.ZERO();
         scene.setOnKeyPressed(
             new EventHandler<KeyEvent>()
             {
@@ -69,6 +59,27 @@ public class App extends Application{
                     input.remove( code );
                 }
             });
+        scene.setOnMouseMoved(
+            new EventHandler<MouseEvent>()
+            {
+                public void handle(MouseEvent event) {
+                    mousePos.set(event.getSceneX(), event.getSceneY());
+                }
+            });
+        scene.setOnMousePressed(
+            new EventHandler<MouseEvent>()
+            {
+                public void handle(MouseEvent event) {
+                    input.add(event.getButton().toString());
+                }
+            });
+        scene.setOnMouseReleased(
+            new EventHandler<MouseEvent>()
+            {
+                public void handle(MouseEvent event) {
+                    input.remove(event.getButton().toString());
+            }
+        });
         
         // Game loop
         GameManager gameManager = new GameManager(renderer);
@@ -80,7 +91,7 @@ public class App extends Application{
                 double dt = (currentNanoTime - lastNanoTime) / 1000000000.0;
                 if (dt > gameManager.targetFrametime){
                     stage.setTitle(String.format("Gametitle: %.2fms", dt*1000));
-                    gameManager.run(input, dt);
+                    gameManager.run(input, mousePos, dt);
                     lastNanoTime = currentNanoTime;
                 }
             }

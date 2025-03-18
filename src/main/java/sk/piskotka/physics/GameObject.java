@@ -1,13 +1,15 @@
-package sk.piskotka.Physics;
+package sk.piskotka.physics;
 
 import sk.piskotka.render.Drawable;
+import sk.piskotka.render.Shape;
 
 public abstract class GameObject implements Drawable{
     int health;
     int maxHealth;
-    protected Vec2 pos, vel, acc;
-    float rotation;
     Collider collider;
+    protected double rotation;
+    protected Vec2 pos, vel, acc;
+    protected Shape shape;
 
     public GameObject(){
         this.health = 0;
@@ -16,6 +18,7 @@ public abstract class GameObject implements Drawable{
         this.vel = Vec2.ZERO();
         this.acc = Vec2.ZERO();
         this.rotation = 0;
+        this.shape = Shape.CreateEmpty();
     }
 
     public void ApplyForce(Vec2 vec){

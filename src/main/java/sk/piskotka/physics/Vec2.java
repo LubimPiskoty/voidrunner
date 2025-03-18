@@ -1,14 +1,14 @@
-package sk.piskotka.Physics;
+package sk.piskotka.physics;
 
 public final class Vec2 {
     double x, y;
 
-    public double getY() {
-        return y;
+    public int getY() {
+        return (int)y;
     }
 
-    public double getX() {
-        return x;
+    public int getX() {
+        return (int)x;
     }
 
     // Constructors
@@ -36,6 +36,10 @@ public final class Vec2 {
 
     public void multiply(double scalar){
         this.set(Vec2.multiply(this, scalar));
+    }
+
+    public double length(){
+        return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }
 
     // Static methods

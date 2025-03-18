@@ -1,9 +1,10 @@
-/home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/Physics/GameObject.java
+/home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/physics/Vec2.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/render/Drawable.java
-/home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/Physics/Collider.java
+/home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/physics/Collider.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/render/Renderer.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/GameManager.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/ship/Spaceship.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/ship/PlayerShip.java
-/home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/Physics/Vec2.java
+/home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/render/Shape.java
+/home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/physics/GameObject.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/App.java
