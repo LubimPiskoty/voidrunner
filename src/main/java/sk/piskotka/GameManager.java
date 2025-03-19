@@ -44,6 +44,7 @@ public class GameManager {
     }
 
     void processEvents(List<String> inputs, Vec2 mousePos){
+        //TODO: Handle difference between onClick and pressed
         Vec2 inputVec = Vec2.ZERO();
         if (inputs.contains("W"))
             inputVec.add(Vec2.DOWN());
@@ -82,10 +83,12 @@ public class GameManager {
     }
 
     public void CreateEntity(PhysicsBody pBody){
+        Logger.LogInfo("GameManager spawning " + pBody.getClass().toString());
         world.add(pBody);
     }
-
+    
     public void DestroyEntity(PhysicsBody pBody){
+        Logger.LogInfo("GameManager destroying " + pBody.getClass().toString());
         world.remove(pBody);
     }
     

@@ -3,10 +3,11 @@
 - [x] Mouse input
 - [x] Polygon drawing
 - [] Check if Vec2 writing is OOP friendly
-- [] Logger
+- [x] Logger
+- [] Rewrite Shape clas
 - [] Projectile working
 - [] Despawning if too far
-- [] Collision
+- [] Collisions
 - [] Color manager (color pallet settings)
 - [] Spawner manager
 - [] Procedural asteroids
@@ -17,6 +18,7 @@
 Rewrite Shape class using [prototype](https://refactoring.guru/design-patterns/prototype)
 Rewrite Asteroid class using [builder](https://refactoring.guru/design-patterns/builder)
 Write Particle system using [flyweight](https://refactoring.guru/design-patterns/flyweight)
+Refactor input and event handling into a class
 
 ## Change the canvas to opengl
 

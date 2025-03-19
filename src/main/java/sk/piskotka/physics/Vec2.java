@@ -101,6 +101,10 @@ public final class Vec2 {
         return v;
     }
 
+    public static Vec2 FromHeading(double angle){
+        return new Vec2(Math.cos(angle), Math.sin(angle));
+    }
+
     public String toString(){
         return "(" + x + "," + y + ")";
     }
