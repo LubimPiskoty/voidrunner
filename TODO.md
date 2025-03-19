@@ -12,6 +12,12 @@
 - [] Procedural asteroids
 - [] ParticleSystem
 
-# Change the canvas to opengl
+## Refactoring
+
+Rewrite Shape class using [prototype](https://refactoring.guru/design-patterns/prototype)
+Rewrite Asteroid class using [builder](https://refactoring.guru/design-patterns/builder)
+Write Particle system using [flyweight](https://refactoring.guru/design-patterns/flyweight)
+
+## Change the canvas to opengl
 
 [OpenGlFX](https://github.com/husker-dev/openglfx)

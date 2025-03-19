@@ -1,5 +1,6 @@
 package sk.piskotka.ship;
 
+import sk.piskotka.logger.Logger;
 import sk.piskotka.physics.PhysicsBody;
 import sk.piskotka.physics.Vec2;
 
@@ -15,7 +16,7 @@ public abstract class Spaceship extends PhysicsBody{
     }
 
     public void shoot() {
-        System.out.println("SHOOTING");
+        Logger.LogDebug("Ship is shooting");
     }
 
     public void move(Vec2 input) {

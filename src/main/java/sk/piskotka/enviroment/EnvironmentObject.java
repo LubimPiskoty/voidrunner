@@ -13,7 +13,6 @@ public abstract class EnvironmentObject extends PhysicsBody{
     public EnvironmentObject randomized() {
         this.vel = Vec2.RandomUnit();
         this.speed = GameManager.getInstance().randomGenerator.nextFloat()*20+15;
-        System.out.println(this.speed);
         this.rotation = GameManager.getInstance().randomGenerator.nextDouble();
         this.vel.multiply(speed);
         return this;

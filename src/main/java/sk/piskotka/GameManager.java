@@ -6,6 +6,7 @@ import java.util.Random;
 
 import javafx.scene.paint.Color;
 import sk.piskotka.enviroment.Asteroid;
+import sk.piskotka.logger.Logger;
 import sk.piskotka.physics.PhysicsBody;
 import sk.piskotka.physics.Vec2;
 import sk.piskotka.render.Renderer;
@@ -16,6 +17,7 @@ public class GameManager {
     public static boolean isRunning = true;
     public double targetFrametime;
     public Random randomGenerator;
+    public long startTime;
     private List<PhysicsBody> world;
     private Renderer ctx;
     private PlayerShip player;
@@ -30,7 +32,8 @@ public class GameManager {
         // Init create all other variables
         this.targetFrametime = 0.016;
         this.ctx = ctx;
-        System.out.println("Game is starting");
+        this.startTime = System.currentTimeMillis();
+        Logger.LogInfo("Game is starting");
         randomGenerator = new Random();
         player = new PlayerShip(ctx.getWidth()/2, ctx.getHeight()/2);
         world = new ArrayList<>();
