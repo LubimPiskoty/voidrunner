@@ -1,7 +1,7 @@
+sk/piskotka/render/Drawable.class
+sk/piskotka/physics/PhysicsBody.class
 sk/piskotka/physics/Collider.class
 sk/piskotka/physics/Vec2.class
-sk/piskotka/render/Drawable.class
 sk/piskotka/render/Shape.class
 sk/piskotka/render/Renderer.class
-sk/piskotka/physics/PhysicsBody.class
 sk/piskotka/ship/Spaceship.class

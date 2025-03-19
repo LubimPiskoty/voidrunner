@@ -4,9 +4,12 @@
 - [x] Polygon drawing
 - [] Check if Vec2 writing is OOP friendly
 - [x] Logger
-- [] Rewrite Shape clas
-- [] Projectile working
+- [] Rewrite Shape class
+- [] Observer entity creation and deletion (Change update and render to a callback system)
+- [] Create Transform class for child transforms like spaceship shooting point etc
+- [x] Projectile working
 - [] Despawning if too far
+- [] Timer class
 - [] Collisions
 - [] Color manager (color pallet settings)
 - [] Spawner manager

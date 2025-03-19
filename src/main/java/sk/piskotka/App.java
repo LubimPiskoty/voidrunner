@@ -70,15 +70,20 @@ public class App extends Application{
             new EventHandler<MouseEvent>()
             {
                 public void handle(MouseEvent event) {
-                    mousePos.set(event.getSceneX(), event.getSceneY());
                     input.add(event.getButton().toString());
+                }
+            });
+        scene.setOnMouseDragged(
+            new EventHandler<MouseEvent>()
+            {
+                public void handle(MouseEvent event) {
+                    mousePos.set(event.getSceneX(), event.getSceneY());
                 }
             });
         scene.setOnMouseReleased(
             new EventHandler<MouseEvent>()
             {
                 public void handle(MouseEvent event) {
-                    mousePos.set(event.getSceneX(), event.getSceneY());
                     input.remove(event.getButton().toString());
             }
         });

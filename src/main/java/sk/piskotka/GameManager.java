@@ -83,12 +83,12 @@ public class GameManager {
     }
 
     public void CreateEntity(PhysicsBody pBody){
-        Logger.LogInfo("GameManager spawning " + pBody.getClass().toString());
+        Logger.LogInfo("GameManager spawning " + pBody.getClass().getSimpleName());
         world.add(pBody);
     }
     
     public void DestroyEntity(PhysicsBody pBody){
-        Logger.LogInfo("GameManager destroying " + pBody.getClass().toString());
+        Logger.LogInfo("GameManager destroying " + pBody.getClass().getSimpleName());
         world.remove(pBody);
     }
     
