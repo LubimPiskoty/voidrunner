@@ -35,6 +35,6 @@ public abstract class Spaceship extends PhysicsBody{
     }
 
     public void move(Vec2 input) {
-        ApplyForce(Vec2.multiply(input, speed));
+        ApplyForce(input.multiply(speed));
     }
 }

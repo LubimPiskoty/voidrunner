@@ -2,7 +2,7 @@
 
 - [x] Mouse input
 - [x] Polygon drawing
-- [] Check if Vec2 writing is OOP friendly
+- [x] Check if Vec2 writing is OOP friendly
 - [x] Logger
 - [] Rewrite Shape class
 - [] Observer entity creation and deletion (Change update and render to a callback system)

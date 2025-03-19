@@ -26,21 +26,16 @@ public abstract class PhysicsBody implements Drawable{
     }
 
     public void ApplyForce(Vec2 vec){
-        this.acc.add(vec);   
+        acc = acc.add(vec);   
     }
 
     public void update(double dt){
-        // System.out.println("pos: " + pos.toString());
-        // System.out.println("vel: " + vel.toString());
-        // System.out.println("acc: " + acc.toString());
-        vel.add(Vec2.multiply(acc, dt));
-        if (vel.length() > maxSpeed){
-            vel.normalize();
-            vel.multiply(maxSpeed);
-        }
+        vel = vel.add(acc.multiply(dt));
+        if (vel.length() > maxSpeed)
+            vel = vel.normalized().multiply(maxSpeed);
 
-        pos.add(Vec2.multiply(vel, dt));
-        acc.set(Vec2.ZERO());
+        pos = pos.add(vel.multiply(dt));
+        acc = Vec2.ZERO();
         onUpdate(dt);
     }
 

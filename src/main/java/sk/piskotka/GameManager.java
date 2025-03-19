@@ -47,17 +47,17 @@ public class GameManager {
         //TODO: Handle difference between onClick and pressed
         Vec2 inputVec = Vec2.ZERO();
         if (inputs.contains("W"))
-            inputVec.add(Vec2.DOWN());
+            inputVec = inputVec.add(Vec2.DOWN());
         if (inputs.contains("S"))
-            inputVec.add(Vec2.UP());
+            inputVec = inputVec.add(Vec2.UP());
         if (inputs.contains("A"))
-            inputVec.add(Vec2.LEFT());
+            inputVec = inputVec.add(Vec2.LEFT());
         if (inputs.contains("D"))
-            inputVec.add(Vec2.RIGHT());
+            inputVec = inputVec.add(Vec2.RIGHT());
         if (inputs.contains("PRIMARY"))
             player.shoot();
         
-        player.move(Vec2.normalized(inputVec));
+        player.move(inputVec.normalized());
         player.aim(mousePos);
     }
 

@@ -11,7 +11,7 @@ public abstract class EnvironmentObject extends PhysicsBody{
     }
 
     public EnvironmentObject randomized() {
-        this.vel = Vec2.RandomUnit();
+        this.vel = Vec2.randomUnit();
         this.speed = GameManager.getInstance().randomGenerator.nextFloat()*20+15;
         this.rotation = GameManager.getInstance().randomGenerator.nextDouble();
         this.vel.multiply(speed);

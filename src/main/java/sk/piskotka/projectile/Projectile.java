@@ -13,8 +13,7 @@ public class Projectile extends PhysicsBody{
         this.shape = Shape.CreateRectangle(-4, -2, 8, 4);
         this.speed = speed;
         this.rotation = rotation;
-        this.vel = Vec2.FromHeading(rotation);
-        this.vel.multiply(speed);
+        this.vel = Vec2.fromHeading(rotation).multiply(speed);
         this.maxSpeed = 1000;
     }
     
