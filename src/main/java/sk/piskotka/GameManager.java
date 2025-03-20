@@ -18,9 +18,8 @@ public class GameManager {
     public double targetFrametime;
     public Random randomGenerator;
     public long startTime;
-    private List<PhysicsBody> world;
+    public Level level;
     private Renderer ctx;
-    private PlayerShip player;
 
     public GameManager(Renderer ctx) {
         // Create the singleton
@@ -33,18 +32,15 @@ public class GameManager {
         this.targetFrametime = 0.016;
         this.ctx = ctx;
         this.startTime = System.currentTimeMillis();
-        Logger.LogInfo("Game is starting");
         randomGenerator = new Random();
-        player = new PlayerShip(ctx.getWidth()/2, ctx.getHeight()/2);
-        world = new ArrayList<>();
+        level = new Level();
         
-        CreateEntity(player);
-
-        CreateEntity(new Asteroid(300, 300, Math.PI/12).randomized());
+        level.Create(new PlayerShip(ctx.getWidth()/2, ctx.getHeight()/2));
+        level.Create(new Asteroid(300, 300, Math.PI/12).randomized());
     }
 
     void processEvents(List<String> inputs, Vec2 mousePos){
-        //TODO: Handle difference between onClick and pressed
+        PlayerShip player = level.getPlayer();
         Vec2 inputVec = Vec2.ZERO();
         if (inputs.contains("W"))
             inputVec = inputVec.add(Vec2.DOWN());
@@ -61,38 +57,22 @@ public class GameManager {
         player.aim(mousePos);
     }
 
-    void updateWorld(double dt){
-        for(PhysicsBody o : world)
-            o.update(dt);
-    }
-
-    void renderFrame(Renderer ctx){
-        for(PhysicsBody o : world)
-            o.draw(ctx);
-    }
-
     public void run(List<String> inputs, Vec2 mousePos, double dt) {
         //System.out.println("Events: " + inputs);
         if (isRunning){
             ctx.clearScreen(Color.BLACK);
             processEvents(inputs, mousePos);
-            updateWorld(dt);
-            renderFrame(ctx);
+            level.update(dt);
+            level.render(ctx);
             ctx.updateScreen();
         }
-    }
-
-    public void CreateEntity(PhysicsBody pBody){
-        Logger.LogInfo("GameManager spawning " + pBody.getClass().getSimpleName());
-        world.add(pBody);
-    }
-    
-    public void DestroyEntity(PhysicsBody pBody){
-        Logger.LogInfo("GameManager destroying " + pBody.getClass().getSimpleName());
-        world.remove(pBody);
     }
     
     public static GameManager getInstance(){
         return instance;
+    }
+
+    public static Level getLevel(){
+        return instance.level;
     }
 }

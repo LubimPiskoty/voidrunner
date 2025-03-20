@@ -22,10 +22,4 @@ public class PlayerShip extends Spaceship{
         //     ctx.drawCross(pos.getX()+p.getX(), pos.getY()+p.getY(), 4, Color.RED);
         // }
     }
-
-    @Override
-    public void onUpdate(double dt) {
-        super.onUpdate(dt);
-    }
-    
 }

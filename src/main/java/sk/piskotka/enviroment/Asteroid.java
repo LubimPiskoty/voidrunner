@@ -18,10 +18,12 @@ public class Asteroid extends EnvironmentObject {
     }
 
     @Override
-    public void onUpdate(double dt) {
+    public void update(double dt) {
         rotation += rotationSpeed*dt;
         if (rotation > Math.PI*2)
             rotation -= Math.PI*2;
+
+        super.update(dt);
     }
 
 }

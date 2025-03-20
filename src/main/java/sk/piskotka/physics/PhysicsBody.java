@@ -35,8 +35,5 @@ public abstract class PhysicsBody implements Drawable{
 
         pos = pos.add(vel.multiply(dt));
         acc = Vec2.ZERO();
-        onUpdate(dt);
     }
-
-    public abstract void onUpdate(double dt);
 }

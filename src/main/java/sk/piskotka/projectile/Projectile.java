@@ -21,9 +21,4 @@ public class Projectile extends PhysicsBody{
     public void draw(Renderer ctx) {
         ctx.drawPolygonWithOffset(pos.getX(), pos.getY(), this.shape.rotatedShape(rotation).getPoints(), Color.CRIMSON);
     }
-
-    @Override
-    public void onUpdate(double dt) {
-    }
-    
 }

@@ -5,8 +5,7 @@
 - [x] Check if Vec2 writing is OOP friendly
 - [x] Logger
 - [x] Rewrite Shape class
-- [] Add exeption handlers
-- [] Observer entity creation and deletion (Change update and render to a callback system)
+- [x] Observer entity creation and deletion (Change update and render to a callback system)
 - [] Create Transform class for child transforms like spaceship shooting point etc
 - [x] Projectile working
 - [] Despawning if too far
@@ -16,6 +15,7 @@
 - [] Spawner manager
 - [] Procedural asteroids
 - [] ParticleSystem
+- [] Add exeption handlers (No clue where i could add this)
 
 ## Refactoring
 

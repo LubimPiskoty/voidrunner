@@ -20,15 +20,14 @@ public abstract class Spaceship extends PhysicsBody{
     }
 
     @Override
-    public void onUpdate(double dt) {
+    public void update(double dt) {
+        super.update(dt);
         attackTimer.tick(dt);
     }
 
     public void shoot() {
-        //Logger.LogDebug("Attack timer remaining: " + attackTimer.remainingTime());
         if (attackTimer.isReady()){
-            //Logger.LogDebug("Ship is shooting");
-            GameManager.getInstance().CreateEntity(new Projectile(pos.getX(), pos.getY(), 1000, rotation));
+            GameManager.getLevel().Create(new Projectile(pos.getX(), pos.getY(), 1000, rotation));
             attackTimer.reset();
         }
     }

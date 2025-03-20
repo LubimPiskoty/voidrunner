@@ -34,24 +34,26 @@ public class Logger {
         return LocalTime.now().format(formatter);
     }
 
-    private static void Log(String tag, String tagColor, String text){
+    private static void Log(String tag, String tagColor, Object caller, String text){
         String timeString = getTimeNow();
         String coloredTag = "[" +tagColor + tag + ANSI_RESET + "]";
-        System.out.println("|" + timeString + "| " + coloredTag + " " + text);
+        String classString = ANSI_WHITE_UNDERLINE + caller.getClass().getSimpleName() + ANSI_RESET;
+        String log = String.format("|%-8s| %-8s %s: %s", timeString, coloredTag, classString, text);
+        System.out.println(log);
     }
 
-    public static void LogDebug(String text){
-        Log("DEBUG", ANSI_WHITE_UNDERLINE, text);
+    public static void LogDebug(Object caller, String text){
+        Log("DEBUG", ANSI_WHITE_UNDERLINE, caller, text);
     }
     
-    public static void LogInfo(String text){
-        Log("INFO", ANSI_CYAN, text);
+    public static void LogInfo(Object caller, String text){
+        Log("INFO", ANSI_CYAN, caller, text);
     }
     
-    public static void LogWarning(String text){
-        Log("WARN", ANSI_YELLOW, text);
+    public static void LogWarning(Object caller, String text){
+        Log("WARN", ANSI_YELLOW, caller, text);
     }
-    public static void LogError(String text){
-        Log("ERROR", ANSI_RED, text);
+    public static void LogError(Object caller, String text){
+        Log("ERROR", ANSI_RED, caller, text);
     }
 }
