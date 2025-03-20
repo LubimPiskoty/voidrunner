@@ -16,7 +16,8 @@ public abstract class Spaceship extends PhysicsBody{
     }
 
     public void aim(Vec2 target){
-        rotation = Math.atan2(target.getY() - pos.getY(),target.getX() - pos.getX());
+        //TODO: Extract into function in Vec2
+        setLocalRot(Math.atan2(target.getY() - getGlobalPos().getY(), target.getX() - getGlobalPos().getX()));
     }
 
     @Override
@@ -25,12 +26,14 @@ public abstract class Spaceship extends PhysicsBody{
         attackTimer.tick(dt);
     }
 
-    public void shoot() {
+    public void attemptToShoot(){
         if (attackTimer.isReady()){
-            GameManager.getLevel().Create(new Projectile(pos.getX(), pos.getY(), 1000, rotation));
+            shoot();
             attackTimer.reset();
         }
     }
+
+    protected abstract void shoot();
 
     public void move(Vec2 input) {
         ApplyForce(input.multiply(speed));

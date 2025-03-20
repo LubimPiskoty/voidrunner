@@ -46,7 +46,7 @@ public class Renderer {
 
     public void drawPolygonWithOffset(int x, int y, List<Vec2> points, Color color){
         if (points.size() == 0){
-            Logger.LogWarning(this, "drawPolygonWithOffset was called with empty points list!!");
+            Logger.throwError(getClass(), "drawPolygonWithOffset was called with empty points list!!");
             return;
         }
         Vec2 prev, next;

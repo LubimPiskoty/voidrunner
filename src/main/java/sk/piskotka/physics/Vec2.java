@@ -40,11 +40,20 @@ public final class Vec2 {
         double l = length();
         return (l == 0) ? new Vec2(0, 0) : new Vec2(x / l, y / l);
     }
+    
+    // Rotates vector in counter-clock wise by angle in radians
+    public Vec2 rotated(double angle){
+        double currAngle = Math.atan2(getY(), getX());
+        double r = length();
+        return new Vec2(Math.cos(currAngle+angle)*r, Math.sin(currAngle+angle)*r);
+    }
+
 
     public void set(double x, double y){
         this.x = x;
         this.y = y;
     }
+
 
 
     // Static Factory Methods

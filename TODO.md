@@ -6,9 +6,9 @@
 - [x] Logger
 - [x] Rewrite Shape class
 - [x] Observer entity creation and deletion (Change update and render to a callback system)
-- [] Create Transform class for child transforms like spaceship shooting point etc
+- [x] Create Transform class for child transforms like spaceship shooting point etc
 - [x] Projectile working
-- [] Despawning if too far
+- [x] Despawning if too far
 - [x] Timer class
 - [] Collisions
 - [] Color manager (color pallet settings)
@@ -16,6 +16,7 @@
 - [] Procedural asteroids
 - [] ParticleSystem
 - [] Add exeption handlers (No clue where i could add this)
+- [] Add class names? maybe
 
 ## Refactoring
 

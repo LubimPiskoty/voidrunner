@@ -14,14 +14,14 @@ public class Asteroid extends EnvironmentObject {
 
     @Override
     public void draw(Renderer ctx) {
-        ctx.drawPolygonWithOffset(pos.getX(), pos.getY(), this.shape.rotatedShape(rotation).getPoints(), Color.BURLYWOOD);
+        ctx.drawPolygonWithOffset(getLocalPos().getX(), getLocalPos().getY(), this.shape.rotatedShape(getLocalRot()).getPoints(), Color.BURLYWOOD);
     }
 
     @Override
     public void update(double dt) {
-        rotation += rotationSpeed*dt;
-        if (rotation > Math.PI*2)
-            rotation -= Math.PI*2;
+        setLocalRot(getLocalRot() + rotationSpeed*dt);
+        if (getLocalRot() > Math.PI*2)
+            setLocalRot(getLocalRot() - Math.PI*2);
 
         super.update(dt);
     }

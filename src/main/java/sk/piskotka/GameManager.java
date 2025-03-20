@@ -7,7 +7,6 @@ import java.util.Random;
 import javafx.scene.paint.Color;
 import sk.piskotka.enviroment.Asteroid;
 import sk.piskotka.logger.Logger;
-import sk.piskotka.physics.PhysicsBody;
 import sk.piskotka.physics.Vec2;
 import sk.piskotka.render.Renderer;
 import sk.piskotka.ship.PlayerShip;
@@ -26,7 +25,7 @@ public class GameManager {
         if (instance == null)
             instance = this;
         else
-            throw new Error("GameManager singleton was already created! There can only be one instance of GameManager");
+            Logger.throwError(getClass(), "GameManager singleton was already created!");
         
         // Init create all other variables
         this.targetFrametime = 0.016;
@@ -37,6 +36,7 @@ public class GameManager {
         
         level.Create(new PlayerShip(ctx.getWidth()/2, ctx.getHeight()/2));
         level.Create(new Asteroid(300, 300, Math.PI/12).randomized());
+        level.printLevelHierarchy();
     }
 
     void processEvents(List<String> inputs, Vec2 mousePos){
@@ -51,8 +51,8 @@ public class GameManager {
         if (inputs.contains("D"))
             inputVec = inputVec.add(Vec2.RIGHT());
         if (inputs.contains("PRIMARY"))
-            player.shoot();
-        
+            player.attemptToShoot();
+
         player.move(inputVec.normalized());
         player.aim(mousePos);
     }
@@ -64,6 +64,7 @@ public class GameManager {
             processEvents(inputs, mousePos);
             level.update(dt);
             level.render(ctx);
+            level.DestroyMarked();
             ctx.updateScreen();
         }
     }

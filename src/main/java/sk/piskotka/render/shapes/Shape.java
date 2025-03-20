@@ -35,9 +35,8 @@ public abstract class Shape {
         Shape copy = this.clone();
         copy.clearPoints();
         for(Vec2 p : points){
-            double currAngle = Math.atan2(p.getY(), p.getX());
-            double r = p.length();
-            copy.addPoint((int)(Math.cos(currAngle+angle)*r), (int)(Math.sin(currAngle+angle)*r));
+            Vec2 rotated = p.rotated(angle);
+            copy.addPoint(rotated.getX(), rotated.getY());
         }
         return copy;
     }

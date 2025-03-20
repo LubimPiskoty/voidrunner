@@ -3,23 +3,22 @@ package sk.piskotka.physics;
 import sk.piskotka.render.Drawable;
 import sk.piskotka.render.shapes.Shape;
 
-public abstract class PhysicsBody implements Drawable{
+public abstract class PhysicsBody extends Transform implements Drawable{
     int health;
     int maxHealth;
     Collider collider;
-    protected double rotation;
-    protected Vec2 pos, vel, acc;
+    protected Vec2 vel, acc;
     protected Shape shape;
     protected float speed;
     protected float maxSpeed;
 
     public PhysicsBody(int x, int y){
+        this.setLocalPos(new Vec2(x, y));
+        this.setLocalRot(0);
         this.health = 0;
         this.maxHealth = 0;
-        this.pos = new Vec2(x, y);
         this.vel = Vec2.ZERO();
         this.acc = Vec2.ZERO();
-        this.rotation = 0;
         this.speed = -1;
         this.maxSpeed = 500;
     }
@@ -33,7 +32,7 @@ public abstract class PhysicsBody implements Drawable{
         if (vel.length() > maxSpeed)
             vel = vel.normalized().multiply(maxSpeed);
 
-        pos = pos.add(vel.multiply(dt));
+        setLocalPos(getLocalPos().add(vel.multiply(dt)));
         acc = Vec2.ZERO();
     }
 }

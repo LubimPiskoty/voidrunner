@@ -1,6 +1,7 @@
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/physics/Vec2.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/physics/PhysicsBody.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/physics/Collider.java
+/home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/physics/Transform.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/ship/Spaceship.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/ship/PlayerShip.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/enviroment/EnvironmentObject.java
