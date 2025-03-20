@@ -2,15 +2,16 @@ package sk.piskotka.ship;
 
 import javafx.scene.paint.Color;
 import sk.piskotka.render.Renderer;
-import sk.piskotka.render.Shape;
+import sk.piskotka.render.shapes.Shape;
+import sk.piskotka.render.shapes.TriangleShape;
 
 public class PlayerShip extends Spaceship{
     private Shape nose; 
 
     public PlayerShip(int x, int y) {
-        super(x, y, 2000, 4);
-        shape = Shape.CreateNGon(0, 0, 50, 3);
-        nose = Shape.CreateNGon(40, 0, 9, 3);
+        super(x, y, 2000, 20);
+        shape = new TriangleShape(0, 0, 50).create();
+        nose = new TriangleShape(40, 0, 9).create();
     }
 
     @Override

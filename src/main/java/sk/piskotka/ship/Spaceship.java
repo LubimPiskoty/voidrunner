@@ -2,7 +2,6 @@ package sk.piskotka.ship;
 
 import sk.piskotka.GameManager;
 import sk.piskotka.guns.Timer;
-import sk.piskotka.logger.Logger;
 import sk.piskotka.physics.PhysicsBody;
 import sk.piskotka.physics.Vec2;
 import sk.piskotka.projectile.Projectile;
@@ -28,7 +27,7 @@ public abstract class Spaceship extends PhysicsBody{
     public void shoot() {
         //Logger.LogDebug("Attack timer remaining: " + attackTimer.remainingTime());
         if (attackTimer.isReady()){
-            Logger.LogDebug("Ship is shooting");
+            //Logger.LogDebug("Ship is shooting");
             GameManager.getInstance().CreateEntity(new Projectile(pos.getX(), pos.getY(), 1000, rotation));
             attackTimer.reset();
         }

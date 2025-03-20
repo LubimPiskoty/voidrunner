@@ -1,7 +1,7 @@
 package sk.piskotka.physics;
 
 import sk.piskotka.render.Drawable;
-import sk.piskotka.render.Shape;
+import sk.piskotka.render.shapes.Shape;
 
 public abstract class PhysicsBody implements Drawable{
     int health;
@@ -22,7 +22,6 @@ public abstract class PhysicsBody implements Drawable{
         this.rotation = 0;
         this.speed = -1;
         this.maxSpeed = 500;
-        this.shape = Shape.CreateEmpty();
     }
 
     public void ApplyForce(Vec2 vec){

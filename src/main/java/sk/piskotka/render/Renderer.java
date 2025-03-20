@@ -10,6 +10,7 @@ import javafx.scene.image.PixelBuffer;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
+import sk.piskotka.logger.Logger;
 import sk.piskotka.physics.Vec2;
 
 public class Renderer {
@@ -44,6 +45,10 @@ public class Renderer {
     }
 
     public void drawPolygonWithOffset(int x, int y, List<Vec2> points, Color color){
+        if (points.size() == 0){
+            Logger.LogWarning("Renderer: drawPolygonWithOffset was called with empty points list!!");
+            return;
+        }
         Vec2 prev, next;
         for(int i = 1; i < points.size(); i++){
             prev = points.get(i-1);

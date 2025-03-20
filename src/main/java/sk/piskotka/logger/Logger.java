@@ -3,9 +3,6 @@ package sk.piskotka.logger;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-import javafx.scene.paint.Color;
-import sk.piskotka.GameManager;
-
 public class Logger {
     public static Logger instance;
     //TODO: Make this bools into arg params
@@ -24,9 +21,7 @@ public class Logger {
     private static final String ANSI_WHITE = "\u001B[37m";
     private static final String ANSI_WHITE_UNDERLINE = "\u001B[4;37m";  // WHITE
 
-    private Logger(){
-        
-    }
+    private Logger(){}
 
     public static Logger getInstance(){
         if (instance == null)
