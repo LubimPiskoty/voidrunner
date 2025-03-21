@@ -6,9 +6,9 @@ import sk.piskotka.physics.Transform;
 import sk.piskotka.physics.Vec2;
 import sk.piskotka.projectile.Projectile;
 import sk.piskotka.render.Renderer;
-import sk.piskotka.render.shapes.PolygonShape;
-import sk.piskotka.render.shapes.Shape;
-import sk.piskotka.render.shapes.TriangleShape;
+import sk.piskotka.shapes.PolygonShape;
+import sk.piskotka.shapes.Shape;
+import sk.piskotka.shapes.TriangleShape;
 
 public class PlayerShip extends Spaceship{
     private Shape nose;
@@ -16,8 +16,8 @@ public class PlayerShip extends Spaceship{
 
     public PlayerShip(int x, int y) {
         super(x, y, 2000, 20);
-        shape = new TriangleShape(0, 0, 50).create();
-        nose = new PolygonShape(0, 0, 9, 12).create();
+        setShape(new TriangleShape(0, 0, 50));
+        nose = new PolygonShape(0, 0, 9, 4);
         
         gunTransform = new Transform();
         gunTransform.setParent(this);   
@@ -32,9 +32,8 @@ public class PlayerShip extends Spaceship{
 
     @Override
     public void draw(Renderer ctx) {
-        Vec2 gunPos = gunTransform.getGlobalPos();
-        ctx.drawPolygonWithOffset(getGlobalPos().getX(), getGlobalPos().getY(), shape.rotatedShape(getLocalRot()).getPoints(), Color.BLUE);
-        ctx.drawPolygonWithOffset(gunPos.getX(), gunPos.getY(), nose.rotatedShape(getLocalRot()).getPoints(), Color.RED);
+        ctx.drawPolygonWithTransform(this, getShape(), Color.BLUE);
+        ctx.drawPolygonWithTransform(gunTransform, nose, Color.BLUEVIOLET);
         // for(Vec2 p : shape.getPoints()){
         //     ctx.drawCross(getGlobalPos.getX()+p.getX(), getGlobalPos.getY()+p.getY(), 4, Color.RED);
         // }

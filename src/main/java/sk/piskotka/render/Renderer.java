@@ -11,7 +11,9 @@ import javafx.scene.image.PixelFormat;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import sk.piskotka.logger.Logger;
+import sk.piskotka.physics.Transform;
 import sk.piskotka.physics.Vec2;
+import sk.piskotka.shapes.Shape;
 
 public class Renderer {
     private int width, height;
@@ -42,6 +44,13 @@ public class Renderer {
     public void clearScreen(Color color){
         for(int i = 0; i < width*height; i++)
             pixels[i] = getColor(color);
+    }
+
+    public void drawPolygonWithTransform(Transform transform, Shape polygon, Color color){
+        Vec2 global = transform.getGlobalPos();
+
+        drawPolygonWithOffset(global.getX(), global.getY(),
+                                polygon.rotated(transform.getGlobalRot()).getPoints(), color);
     }
 
     public void drawPolygonWithOffset(int x, int y, List<Vec2> points, Color color){
@@ -138,5 +147,17 @@ public class Renderer {
 
     public static int getColor(Color color) {
         return 255 << 24 | (int)(color.getRed()*255) << 16 | (int)(color.getGreen()*255) << 8 | (int)(color.getBlue()*255);
+    }
+
+    // Debuging rendering
+    public void drawVector(Vec2 origin, Vec2 v, Color color){
+        List<Vec2> points = new ArrayList<>();
+        points.add(v);
+        points.add(Vec2.ZERO());
+        points.add(v);
+        points.add(v.rotated(-Math.PI/45).multiply(0.9));
+        points.add(v.rotated(+Math.PI/45).multiply(0.9));
+        
+        drawPolygonWithOffset(origin.getX(), origin.getY(), points, color);
     }
 }

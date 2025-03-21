@@ -63,25 +63,24 @@ public class Transform {
     }
 
     public Vec2 getGlobalPos(){
-        if (parent.isRoot())
+        if (isRoot() || parent.isRoot())
             return getLocalPos(); // Ill just ignore root rotation and position
 
         return getLocalPos().rotated(parent.getLocalRot()).add(parent.getGlobalPos());
     }
 
-    public boolean isRoot(){
-        return parent == null;
+    public double getGlobalRot(){
+        if (isRoot() || parent.isRoot())
+            return getLocalRot();
+        return getLocalRot()+parent.getGlobalRot();
     }
 
-    public double getGlobalRot(){
-        double globalRot = getLocalRot();
+    public Vec2 getGlobalFromLocalPos(Vec2 local){
+        return new Vec2(local).rotated(getLocalRot()).add(getGlobalPos());
+    }
 
-        Transform parent = this.parent;
-        while (!parent.isRoot())
-            globalRot += parent.getLocalRot();
-        globalRot += parent.getLocalRot(); // Add roots rotation too
-            
-        return globalRot;
+    public boolean isRoot(){
+        return parent == null;
     }
 
     public static Transform createRoot(){

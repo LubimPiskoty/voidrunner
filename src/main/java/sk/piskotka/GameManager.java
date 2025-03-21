@@ -62,7 +62,7 @@ public class GameManager {
         if (isRunning){
             ctx.clearScreen(Color.BLACK);
             processEvents(inputs, mousePos);
-            level.update(dt);
+            level.update(dt/2);
             level.render(ctx);
             level.DestroyMarked();
             ctx.updateScreen();
@@ -75,5 +75,9 @@ public class GameManager {
 
     public static Level getLevel(){
         return instance.level;
+    }
+
+    public static Renderer getRenderer(){
+        return instance.ctx;
     }
 }

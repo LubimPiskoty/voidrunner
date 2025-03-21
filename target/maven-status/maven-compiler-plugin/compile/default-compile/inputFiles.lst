@@ -1,6 +1,8 @@
+/home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/shapes/PolygonShape.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/physics/Vec2.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/physics/PhysicsBody.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/physics/Collider.java
+/home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/shapes/TriangleShape.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/physics/Transform.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/ship/Spaceship.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/ship/PlayerShip.java
@@ -8,13 +10,11 @@
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/projectile/Projectile.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/logger/Logger.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/render/Drawable.java
-/home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/render/shapes/PolygonShape.java
-/home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/render/shapes/TriangleShape.java
-/home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/render/shapes/Shape.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/Level.java
+/home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/shapes/RectangleShape.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/render/Renderer.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/GameManager.java
+/home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/shapes/Shape.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/enviroment/Asteroid.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/App.java
-/home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/render/shapes/RectangleShape.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/guns/Timer.java

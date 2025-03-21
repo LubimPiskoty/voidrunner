@@ -1,14 +1,25 @@
 package sk.piskotka.physics;
 
+import sk.piskotka.logger.Logger;
 import sk.piskotka.render.Drawable;
-import sk.piskotka.render.shapes.Shape;
+import sk.piskotka.shapes.Shape;
 
 public abstract class PhysicsBody extends Transform implements Drawable{
     int health;
     int maxHealth;
-    Collider collider;
+
+    private Collider collider;
+    public Collider getCollider() {return collider;}
+
+    private Shape shape;
+    public Shape getShape() {return shape;}
+    public void setShape(Shape shape) 
+    {
+        this.shape = shape;
+        collider = new Collider(this, shape);
+    }
+
     protected Vec2 vel, acc;
-    protected Shape shape;
     protected float speed;
     protected float maxSpeed;
 
@@ -34,5 +45,9 @@ public abstract class PhysicsBody extends Transform implements Drawable{
 
         setLocalPos(getLocalPos().add(vel.multiply(dt)));
         acc = Vec2.ZERO();
+        
+        if (collider == null)
+            Logger.throwError(getClass(), "update: Collider is null. Did you forget to add one?");
+        collider.calculateEdgeNormals();
     }
 }

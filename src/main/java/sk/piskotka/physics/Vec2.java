@@ -43,6 +43,7 @@ public final class Vec2 {
     
     // Rotates vector in counter-clock wise by angle in radians
     public Vec2 rotated(double angle){
+        //TODO: Refactor into matrix mult
         double currAngle = Math.atan2(getY(), getX());
         double r = length();
         return new Vec2(Math.cos(currAngle+angle)*r, Math.sin(currAngle+angle)*r);
@@ -54,6 +55,21 @@ public final class Vec2 {
         this.y = y;
     }
 
+    public void set(Vec2 v){
+        set(v.getX(), v.getY());
+    }
+
+    public double getHeading() {
+        return Math.atan2(getY(), getX());
+    }
+
+    public double dot(Vec2 other){
+        return getX()*other.getX()+getY()+other.getY();
+    }
+
+    public Vec2 normal(){
+        return new Vec2(-getY(), getX());
+    }
 
 
     // Static Factory Methods

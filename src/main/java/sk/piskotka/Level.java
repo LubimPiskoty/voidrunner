@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import javafx.scene.paint.Color;
 import sk.piskotka.logger.Logger;
 import sk.piskotka.physics.PhysicsBody;
 import sk.piskotka.physics.Transform;
@@ -69,8 +70,10 @@ public class Level {
     }
 
     public void render(Renderer ctx){
-        for(PhysicsBody pb : pBodies)
+        for(PhysicsBody pb : pBodies){
             pb.draw(ctx);
+            pb.getCollider().drawEdgeNormals(Color.PINK);
+        }
     }
     
     private String printHierarchy(Transform transform, int depth){

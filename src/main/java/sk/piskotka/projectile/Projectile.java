@@ -6,14 +6,15 @@ import sk.piskotka.guns.Timer;
 import sk.piskotka.physics.PhysicsBody;
 import sk.piskotka.physics.Vec2;
 import sk.piskotka.render.Renderer;
-import sk.piskotka.render.shapes.RectangleShape;
+import sk.piskotka.shapes.PolygonShape;
+import sk.piskotka.shapes.RectangleShape;
 
 public class Projectile extends PhysicsBody{
     private Timer deathTimer;
 
     public Projectile(int x, int y, float speed, double rotation) {
         super(x, y);
-        this.shape = new RectangleShape(-4, -2, 8, 4).create();
+        this.setShape(new PolygonShape(0, 0, 10, 4));
         this.speed = speed;
         this.setLocalRot(rotation);
         this.vel = Vec2.fromHeading(rotation).multiply(speed);
@@ -31,6 +32,7 @@ public class Projectile extends PhysicsBody{
     
     @Override
     public void draw(Renderer ctx) {
-        ctx.drawPolygonWithOffset(getGlobalPos().getX(), getGlobalPos().getY(), this.shape.rotatedShape(getLocalRot()).getPoints(), Color.CRIMSON);
+        Vec2 global = getGlobalPos();
+        ctx.drawPolygonWithOffset(global.getX(), global.getY(), getShape().rotated(getLocalRot()).getPoints(), Color.CRIMSON);
     }
 }

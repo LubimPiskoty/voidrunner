@@ -1,4 +1,4 @@
-package sk.piskotka.render.shapes;
+package sk.piskotka.shapes;
 
 public class TriangleShape extends PolygonShape {
 
