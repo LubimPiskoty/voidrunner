@@ -16,7 +16,7 @@ public class PlayerShip extends Spaceship{
 
     public PlayerShip(int x, int y) {
         super(x, y, 200, 5);
-        setShape(new PolygonShape(0, 0, 50, 4));
+        setShape(new PolygonShape(0, 0, 50, 3));
         nose = new PolygonShape(0, 0, 9, 4);
         
         gunTransform = new Transform();

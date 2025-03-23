@@ -1,7 +1,6 @@
 package sk.piskotka.physics;
 
 import sk.piskotka.logger.Logger;
-import sk.piskotka.physics.Collider.CollisionResult;
 import sk.piskotka.render.Drawable;
 import sk.piskotka.shapes.Shape;
 
@@ -29,10 +28,10 @@ public abstract class PhysicsBody extends Transform implements Drawable {
         this.setLocalRot(0);
         this.health = 0;
         this.maxHealth = 0;
+        this.speed = 0;
+        this.maxSpeed = 500;
         this.vel = Vec2.ZERO();
         this.acc = Vec2.ZERO();
-        this.speed = -1;
-        this.maxSpeed = 500;
     }
 
     public void ApplyForce(Vec2 vec){
@@ -53,8 +52,6 @@ public abstract class PhysicsBody extends Transform implements Drawable {
 
     public boolean checkCollisionWith(PhysicsBody other){
         if (collider.isCollidingWith(other.collider)){
-            this.collider.onCollision();
-            other.collider.onCollision();
             return true;
         }
         return false;

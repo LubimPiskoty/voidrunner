@@ -7,7 +7,6 @@ import java.util.List;
 import javafx.scene.paint.Color;
 import sk.piskotka.logger.Logger;
 import sk.piskotka.physics.Collider;
-import sk.piskotka.physics.Collider.CollisionResult;
 import sk.piskotka.physics.PhysicsBody;
 import sk.piskotka.physics.Transform;
 import sk.piskotka.physics.Vec2;
@@ -88,6 +87,7 @@ public class Level {
                     B = pBodies.get(b);
 
                     if(A.checkCollisionWith(B)){
+                        B.checkCollisionWith(A); //TODO: temporary meter
                         //Logger.logDebug(getClass(), "update.resolutionStep: " + A + " is colliding with " + B);
                         //GameManager.getRenderer().drawVector(cResult.point, cResult.normal.multiply(cResult.penetration), Color.LIME);
                     }

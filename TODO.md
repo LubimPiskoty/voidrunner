@@ -11,6 +11,7 @@
 - [x] Despawning if too far
 - [x] Timer class
 - [] Collisions
+- [] Change physics simulation for force based system (include mass)
 - [] Color manager (color pallet settings)
 - [] Spawner manager
 - [] Procedural asteroids
@@ -28,3 +29,8 @@ Refactor input and event handling into a class
 ## Change the canvas to opengl
 
 [OpenGlFX](https://github.com/husker-dev/openglfx)
+
+## Collider class design
+
+Collider will have a bounding AABB Box for fast collision checking and then a detailed shape for precise collision.
+Detailed collision will be made after https://github.com/jessevdk/box2d/blob/master/Box2D/Box2D/Collision/b2CollidePolygon.cpp
