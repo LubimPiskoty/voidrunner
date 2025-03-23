@@ -1,6 +1,9 @@
 package sk.piskotka.physics;
 
+import javafx.scene.paint.Color;
+import sk.piskotka.GameManager;
 import sk.piskotka.logger.Logger;
+import sk.piskotka.physics.Collider.CollisionInfo;
 import sk.piskotka.render.Drawable;
 import sk.piskotka.shapes.Shape;
 
@@ -50,12 +53,15 @@ public abstract class PhysicsBody extends Transform implements Drawable, Collisi
             Logger.throwError(getClass(), "update: Collider is null. Did you forget to add one?");
     }
 
-    public boolean checkCollisionWith(PhysicsBody other){
-        return collider.checkCollisionWith(other.collider);
+    public void handleCollisionWith(PhysicsBody other){
+        CollisionInfo cInfo = collider.checkCollisionWith(other.collider);
+        if (cInfo.result)
+            resolveCollision(other, cInfo);
     }
 
-    public void resolveCollision(PhysicsBody other){
-        //TODO: Implement
+    private void resolveCollision(PhysicsBody other, CollisionInfo cInfo){
+        for(Vec2 contact : cInfo.contacts)
+            GameManager.getRenderer().drawCross(contact.add(getGlobalPos()), 10, Color.RED);
     }
 
     @Override

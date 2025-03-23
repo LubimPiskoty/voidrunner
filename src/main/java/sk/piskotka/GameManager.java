@@ -20,7 +20,7 @@ public class GameManager {
     private Renderer ctx;
 
     private boolean isDebug;
-    public boolean isDebug() {return isDebug;}
+    public static boolean isDebug() {return getInstance().isDebug;}
 
     public GameManager(Renderer ctx) {
         // Create the singleton

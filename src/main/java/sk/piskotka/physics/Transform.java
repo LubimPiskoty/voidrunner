@@ -88,6 +88,15 @@ public class Transform {
         return global;
     }
 
+    public List<Vec2> movePoints(List<Vec2> local){
+        Vec2 globalPos = getGlobalPos();
+        List<Vec2> global = new ArrayList<>();
+        for (Vec2 point : local) {
+            global.add(globalPos);
+        }
+        return global;
+    }
+
     public boolean isRoot(){
         return parent == null;
     }

@@ -16,7 +16,6 @@ public abstract class Spaceship extends PhysicsBody{
     }
 
     public void aim(Vec2 target){
-        //TODO: Extract into function in Vec2
         setLocalRot(target.subtract(getGlobalPos()).getHeading());
     }
 

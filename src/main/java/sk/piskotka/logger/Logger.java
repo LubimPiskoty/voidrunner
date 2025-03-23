@@ -3,6 +3,8 @@ package sk.piskotka.logger;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+import sk.piskotka.GameManager;
+
 public class Logger {
     public static Logger instance;
     //TODO: Make this bools into arg params
@@ -43,7 +45,8 @@ public class Logger {
     }
 
     public static void logDebug(Class<?> caller, String text){
-        log("DEBUG", ANSI_WHITE_UNDERLINE, caller, text);
+        if (GameManager.isDebug())
+            log("DEBUG", ANSI_WHITE_UNDERLINE, caller, text);
     }
     
     public static void logInfo(Class<?> caller, String text){

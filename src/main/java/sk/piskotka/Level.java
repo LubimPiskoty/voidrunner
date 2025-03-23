@@ -47,7 +47,7 @@ public class Level {
     public void destroy(PhysicsBody pBody){
         Logger.logInfo(getClass(), "Destroying entity: " + pBody.toString());
         if (pBody instanceof PlayerShip)
-            Logger.logError(getClass(), "Player was destroyed from level");
+            Logger.throwError(getClass(), "Player was destroyed from level");
         markedForDeletion.add(pBody);
     }
 
@@ -65,7 +65,7 @@ public class Level {
 
     public void setPlayer(PlayerShip player) {
         if (this.player != null)
-            Logger.logError(getClass(), "Overwriting player ref because new player object was created!");
+            Logger.throwError(getClass(), "Overwriting player ref because new player object was created!");
         this.player = player;
     }
 
@@ -75,8 +75,7 @@ public class Level {
 
         destroyMarked();
 
-        //TODO: This will need to be refactored
-        // Check for collision
+        // Check for collision and resolve them
         for(int i = 0; i < this.resolutionSteps; i++){
             // Check each combination of pBodies
             PhysicsBody A, B;
@@ -85,10 +84,7 @@ public class Level {
      
                 for(int b = a+1; b < pBodies.size(); b++){
                     B = pBodies.get(b);
-
-                    if(A.checkCollisionWith(B)){
-                        
-                    }
+                    A.handleCollisionWith(B);
                 }
             }
         }
