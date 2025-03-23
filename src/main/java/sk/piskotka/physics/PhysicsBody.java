@@ -4,7 +4,7 @@ import sk.piskotka.logger.Logger;
 import sk.piskotka.render.Drawable;
 import sk.piskotka.shapes.Shape;
 
-public abstract class PhysicsBody extends Transform implements Drawable {
+public abstract class PhysicsBody extends Transform implements Drawable, CollisionEvents {
     int health;
     int maxHealth;
 
@@ -16,7 +16,7 @@ public abstract class PhysicsBody extends Transform implements Drawable {
     public void setShape(Shape shape) 
     {
         this.shape = shape;
-        collider = new Collider(this, shape, false);
+        collider = new Collider(this, shape.getPoints());
     }
 
     protected Vec2 vel, acc;
@@ -51,13 +51,26 @@ public abstract class PhysicsBody extends Transform implements Drawable {
     }
 
     public boolean checkCollisionWith(PhysicsBody other){
-        if (collider.isCollidingWith(other.collider)){
-            return true;
-        }
-        return false;
+        return collider.checkCollisionWith(other.collider);
     }
 
     public void resolveCollision(PhysicsBody other){
         //TODO: Implement
+    }
+
+    @Override
+    public void onCollision(Collider other) {
+        //Logger.logDebug(getClass(), this + " has collided with " + other);
+    }
+
+    @Override
+    public void onTriggerEnter(Collider other) {}
+    @Override
+    public void onTriggerExit(Collider other) {}
+
+    @Override
+    public void onDeath() {
+        super.onDeath();
+        collider.onDestroy();
     }
 }

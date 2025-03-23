@@ -8,6 +8,7 @@
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/ship/PlayerShip.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/enviroment/EnvironmentObject.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/projectile/Projectile.java
+/home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/physics/CollisionEvents.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/logger/Logger.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/render/Drawable.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/Level.java

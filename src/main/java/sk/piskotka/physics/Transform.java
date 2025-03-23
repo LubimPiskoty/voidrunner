@@ -76,7 +76,16 @@ public class Transform {
     }
 
     public Vec2 getGlobalFromLocalPos(Vec2 local){
-        return new Vec2(local).rotated(getLocalRot()).add(getGlobalPos());
+        return local.rotated(getLocalRot()).add(getGlobalPos());
+    }
+
+    public List<Vec2> transformPoints(List<Vec2> local){
+        Vec2 globalPos = getGlobalPos();
+        List<Vec2> global = new ArrayList<>();
+        for (Vec2 point : local) {
+            global.add(point.rotated(getLocalRot()).add(globalPos));
+        }
+        return global;
     }
 
     public boolean isRoot(){
@@ -92,4 +101,8 @@ public class Transform {
         String name = super.toString();
         return name.substring(name.lastIndexOf(".")+1);
     }
+
+    public void onDeath(){
+        getParent().removeChild(this);
+    };
 }

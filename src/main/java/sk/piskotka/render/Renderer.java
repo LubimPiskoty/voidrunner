@@ -73,6 +73,13 @@ public class Renderer {
         drawPolygonWithOffset(0, 0, points, color);
     }
 
+    public void drawCross(Vec2 pos, int r, Color color){
+        int x = pos.getX();
+        int y = pos.getY();
+        drawLine(x-r, y-r, x+r, y+r, color);
+        drawLine(x-r, y+r, x+r, y-r, color);
+    }
+
     public void drawCross(int x, int y, int r, Color color){
         drawLine(x-r, y-r, x+r, y+r, color);
         drawLine(x-r, y+r, x+r, y-r, color);

@@ -1,0 +1,1 @@
+mvn compile javafx:run -DskipTests -Dmaven.test.skip -Dmaven.javadoc.skip=true

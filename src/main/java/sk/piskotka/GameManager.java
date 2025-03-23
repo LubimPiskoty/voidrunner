@@ -38,7 +38,7 @@ public class GameManager {
         level = new Level();
         
         level.create(new PlayerShip(ctx.getWidth()/2, ctx.getHeight()/2));
-        level.create(new Asteroid(400, 400, 0));
+        level.create(new Asteroid(550, 550, 0));
         level.printLevelHierarchy();
     }
 

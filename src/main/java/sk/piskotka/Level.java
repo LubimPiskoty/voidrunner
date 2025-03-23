@@ -53,7 +53,7 @@ public class Level {
 
     private void destroyMarked(){
         for(PhysicsBody p : markedForDeletion){
-            p.getParent().removeChild(p);
+            p.onDeath();
             pBodies.remove(p);
         }
         markedForDeletion.clear();
@@ -87,9 +87,7 @@ public class Level {
                     B = pBodies.get(b);
 
                     if(A.checkCollisionWith(B)){
-                        B.checkCollisionWith(A); //TODO: temporary meter
-                        //Logger.logDebug(getClass(), "update.resolutionStep: " + A + " is colliding with " + B);
-                        //GameManager.getRenderer().drawVector(cResult.point, cResult.normal.multiply(cResult.penetration), Color.LIME);
+                        
                     }
                 }
             }
