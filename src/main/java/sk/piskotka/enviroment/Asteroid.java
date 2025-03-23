@@ -2,6 +2,7 @@ package sk.piskotka.enviroment;
 
 import javafx.scene.paint.Color;
 import sk.piskotka.render.Renderer;
+import sk.piskotka.shapes.PolygonShape;
 import sk.piskotka.shapes.RectangleShape;
 
 public class Asteroid extends EnvironmentObject {
@@ -9,7 +10,8 @@ public class Asteroid extends EnvironmentObject {
     public Asteroid(int x, int y, double rotationSpeed) {
         super(x, y);
         this.rotationSpeed = rotationSpeed;
-        this.setShape(new RectangleShape(-50, -20, 100, 70));
+        // this.setShape(new RectangleShape(-50, -20, 100, 70));
+        this.setShape(new PolygonShape(0, 0, 100, 4));
     }
 
     @Override

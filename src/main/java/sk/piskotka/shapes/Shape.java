@@ -48,6 +48,14 @@ public class Shape {
         return copy;
     }
 
+    public Shape scaled(double factor){
+        Shape copy = copy();
+        for(Vec2 p : copy.getPoints()){
+            p.set(p.multiply(factor));
+        }
+        return copy;    
+    }
+
     private void clearPoints(){
         this.points.clear();
     }

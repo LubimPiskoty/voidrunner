@@ -27,7 +27,7 @@ public class Projectile extends PhysicsBody{
         super.update(dt);
         deathTimer.tick(dt);
         if (deathTimer.isReady())
-            GameManager.getLevel().Destroy(this);
+            GameManager.getLevel().destroy(this);
     }
     
     @Override

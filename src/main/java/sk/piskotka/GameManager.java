@@ -1,6 +1,5 @@
 package sk.piskotka;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -20,6 +19,9 @@ public class GameManager {
     public Level level;
     private Renderer ctx;
 
+    private boolean isDebug;
+    public boolean isDebug() {return isDebug;}
+
     public GameManager(Renderer ctx) {
         // Create the singleton
         if (instance == null)
@@ -28,14 +30,15 @@ public class GameManager {
             Logger.throwError(getClass(), "GameManager singleton was already created!");
         
         // Init create all other variables
+        this.isDebug = false;
         this.targetFrametime = 0.016;
         this.ctx = ctx;
         this.startTime = System.currentTimeMillis();
         randomGenerator = new Random();
         level = new Level();
         
-        level.Create(new PlayerShip(ctx.getWidth()/2, ctx.getHeight()/2));
-        level.Create(new Asteroid(300, 300, Math.PI/12).randomized());
+        level.create(new PlayerShip(ctx.getWidth()/2, ctx.getHeight()/2));
+        level.create(new Asteroid(400, 400, 0));
         level.printLevelHierarchy();
     }
 
@@ -52,6 +55,12 @@ public class GameManager {
             inputVec = inputVec.add(Vec2.RIGHT());
         if (inputs.contains("PRIMARY"))
             player.attemptToShoot();
+        
+        //Toggle debug mode
+        if (inputs.contains("G"))
+            this.isDebug = true;
+        if (inputs.contains("H"))
+            this.isDebug = false;
 
         player.move(inputVec.normalized());
         player.aim(mousePos);
@@ -62,9 +71,8 @@ public class GameManager {
         if (isRunning){
             ctx.clearScreen(Color.BLACK);
             processEvents(inputs, mousePos);
-            level.update(dt/2);
+            level.update(dt);
             level.render(ctx);
-            level.DestroyMarked();
             ctx.updateScreen();
         }
     }

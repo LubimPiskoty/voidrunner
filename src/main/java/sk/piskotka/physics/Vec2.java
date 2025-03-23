@@ -38,13 +38,13 @@ public final class Vec2 {
 
     public Vec2 normalized() {
         double l = length();
-        return (l == 0) ? new Vec2(0, 0) : new Vec2(x / l, y / l);
+        return (Math.abs(l) < 0.000001) ? new Vec2(0, 0) : new Vec2(x / l, y / l);
     }
     
     // Rotates vector in counter-clock wise by angle in radians
     public Vec2 rotated(double angle){
         //TODO: Refactor into matrix mult
-        double currAngle = Math.atan2(getY(), getX());
+        double currAngle = Math.atan2(y, x);
         double r = length();
         return new Vec2(Math.cos(currAngle+angle)*r, Math.sin(currAngle+angle)*r);
     }
@@ -56,19 +56,19 @@ public final class Vec2 {
     }
 
     public void set(Vec2 v){
-        set(v.getX(), v.getY());
+        set(v.x, v.y);
     }
 
     public double getHeading() {
-        return Math.atan2(getY(), getX());
+        return Math.atan2(y, x);
     }
 
     public double dot(Vec2 other){
-        return getX()*other.getX()+getY()+other.getY();
+        return x*other.x+y+other.y;
     }
 
     public Vec2 normal(){
-        return new Vec2(-getY(), getX());
+        return new Vec2(-y, x);
     }
 
 
@@ -92,6 +92,6 @@ public final class Vec2 {
 
     @Override
     public String toString() {
-        return "(" + x + ", " + y + ")";
+        return String.format("(%.2f, %.2f)", x, y);
     }
 }

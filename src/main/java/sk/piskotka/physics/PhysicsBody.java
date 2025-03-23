@@ -1,10 +1,11 @@
 package sk.piskotka.physics;
 
 import sk.piskotka.logger.Logger;
+import sk.piskotka.physics.Collider.CollisionResult;
 import sk.piskotka.render.Drawable;
 import sk.piskotka.shapes.Shape;
 
-public abstract class PhysicsBody extends Transform implements Drawable{
+public abstract class PhysicsBody extends Transform implements Drawable {
     int health;
     int maxHealth;
 
@@ -16,7 +17,7 @@ public abstract class PhysicsBody extends Transform implements Drawable{
     public void setShape(Shape shape) 
     {
         this.shape = shape;
-        collider = new Collider(this, shape);
+        collider = new Collider(this, shape, false);
     }
 
     protected Vec2 vel, acc;
@@ -48,6 +49,18 @@ public abstract class PhysicsBody extends Transform implements Drawable{
         
         if (collider == null)
             Logger.throwError(getClass(), "update: Collider is null. Did you forget to add one?");
-        collider.calculateEdgeNormals();
+    }
+
+    public boolean checkCollisionWith(PhysicsBody other){
+        if (collider.isCollidingWith(other.collider)){
+            this.collider.onCollision();
+            other.collider.onCollision();
+            return true;
+        }
+        return false;
+    }
+
+    public void resolveCollision(PhysicsBody other){
+        //TODO: Implement
     }
 }

@@ -15,8 +15,8 @@ public class PlayerShip extends Spaceship{
     private Transform gunTransform;
 
     public PlayerShip(int x, int y) {
-        super(x, y, 2000, 20);
-        setShape(new TriangleShape(0, 0, 50));
+        super(x, y, 200, 5);
+        setShape(new PolygonShape(0, 0, 50, 4));
         nose = new PolygonShape(0, 0, 9, 4);
         
         gunTransform = new Transform();
@@ -27,7 +27,7 @@ public class PlayerShip extends Spaceship{
     @Override
     public void shoot() {
         Vec2 gunPos = gunTransform.getGlobalPos(); 
-        GameManager.getLevel().Create(new Projectile(gunPos.getX(), gunPos.getY(), 1000, getLocalRot()));
+        GameManager.getLevel().create(new Projectile(gunPos.getX(), gunPos.getY(), 1000, getLocalRot()));
     }
 
     @Override
