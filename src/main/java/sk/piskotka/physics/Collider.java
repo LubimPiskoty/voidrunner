@@ -144,14 +144,11 @@ public class Collider implements Drawable {
     // First check the bounding collision and then construct SAT
     public CollisionInfo checkCollisionWith(Collider other){
         CollisionInfo cInfo = new CollisionInfo();
-        //                                                                    Why was this part in the blog if it makes it worse?
-        if (isBoundingColliding(other) && isCollidingFromA(this, other, cInfo)){// || isCollidingFromA(other, this));
+        if (isBoundingColliding(other)){
             collisionEvents.onCollision(other);
             other.collisionEvents.onCollision(this);
             colliders.add(other);
             other.colliders.add(this);
-            // Find the collision manifold
-            findCollisionManifold(cInfo.refCollider, cInfo.incCollider, cInfo);
 
         }else{
             colliders.remove(other);
@@ -162,112 +159,6 @@ public class Collider implements Drawable {
 
     public boolean isColliding(){
         return colliders.size() != 0;
-    }
-
-    private static void findCollisionManifold(Collider A, Collider B, CollisionInfo info) {
-        // Step 1: Identify the reference edge on A. (This is the edge whose normal was used.)
-        int refEdgeIndex = findReferenceEdgeIndex(A, info.normal);
-        Vec2 refV1 = A.vertices.get((refEdgeIndex + A.vertices.size()-1) % A.vertices.size());
-        Vec2 refV2 = A.vertices.get(refEdgeIndex);
-
-        // Compute the reference edge direction and its perpendicular normals.
-        Vec2 refEdge = A.edgeNormals.get(refEdgeIndex).rotated(A.transform.getLocalRot());
-
-        // Step 2: Find the incident edge on B – the edge on B that is most anti-parallel to the reference normal.
-        int incEdgeIndex = findIncidentEdgeIndex(B, info.normal);
-        Vec2 incV1 = B.vertices.get((incEdgeIndex + B.vertices.size()-1) % B.vertices.size());
-        Vec2 incV2 = B.vertices.get(incEdgeIndex);
-
-        //DEBUG - Render out the incident and reference edges
-        if (GameManager.isDebug()){
-            debugEdgeNormals(A, refEdgeIndex, Color.AQUA);
-            debugEdgeNormals(B, incEdgeIndex, Color.RED);
-            Logger.logDebug(Collider.class, 
-                String.format("info.penetration %s", info.penetration));
-            //Logger.logDebug(Collider.class, String.format("incV1: %s, incV2: %s", globalInc1, globalInc2));
-            //Logger.logDebug(Collider.class, String.format("refV1: %s, refV2: %s", globalRef1, globalRef2));
-        }
-
-        // Step 3: Clip the incident edge against the side planes of the reference edge.
-        // Compute side (or “clip”) normals for the reference edge.
-        // They are the normals perpendicular to the reference edge (pointing inward).
-        Vec2 sideNormal1 = refEdge.normal();
-        Vec2 sideNormal2 = sideNormal1.multiply(-1);
-
-        // Offsets for the clipping lines (distance from origin)
-        double offset1 = sideNormal1.dot(refV1);
-        double offset2 = sideNormal2.dot(refV2);
-
-        // Prevent exceptions
-        List<Vec2> contacts = new ArrayList<>();
-        info.contacts = contacts;
-        // First clip: against sideNormal1
-        List<Vec2> clippedPoints = clipSegmentToLine(incV1, incV2, sideNormal1, offset1);
-        if (clippedPoints.size() < 2) return; // Not enough points
-
-        // Second clip: against sideNormal2
-        clippedPoints = clipSegmentToLine(clippedPoints.get(0), clippedPoints.get(0), sideNormal2, offset2);
-        if (clippedPoints.size() < 2) return;
-        
-        // Step 4: Only keep points that are within the penetration depth.
-        double refOffset = info.normal.dot(refV1);
-        for (Vec2 p : clippedPoints) {
-            if (info.normal.dot(p) - refOffset <= info.penetration + 1e-6) {
-                contacts.add(p);
-            }
-        }
-    }
-
-    // Finds the index of the edge in collider A whose normal is closest to the given normal.
-    private static int findReferenceEdgeIndex(Collider A, Vec2 collisionNormal) {
-        int bestIndex = 0;
-        double bestDot = Double.NEGATIVE_INFINITY;
-        for (int i = 0; i < A.edgeNormals.size(); i++) {
-            double dot = collisionNormal.dot(A.edgeNormals.get(i).rotated(A.transform.getLocalRot()));
-            if (dot > bestDot) {
-                bestDot = dot;
-                bestIndex = i;
-            }
-        }
-        return bestIndex;
-    }
-
-    // Finds the incident edge on collider B: the edge whose normal is most anti-parallel to the collision normal.
-    private static int findIncidentEdgeIndex(Collider B, Vec2 refNormal) {
-        int bestIndex = 0;
-        double bestDot = Double.POSITIVE_INFINITY;
-        for (int i = 0; i < B.edgeNormals.size(); i++) {
-            double dot = refNormal.dot(B.edgeNormals.get(i).rotated(B.transform.getLocalRot()));
-            if (dot < bestDot) {
-                bestDot = dot;
-                bestIndex = i;
-            }
-        }
-        return bestIndex;
-    }
-
-    // Clips the segment (defined by v1 and v2) against the line: (n dot v) = offset.
-    // Returns the points that lie on the "inside" half-space.
-    private static List<Vec2> clipSegmentToLine(Vec2 v1, Vec2 v2, Vec2 n, double offset) {
-        List<Vec2> output = new ArrayList<>();
-        double d1 = n.dot(v1) - offset;
-        double d2 = n.dot(v2) - offset;
-
-        // If v1 is inside, keep it.
-        if (d1 >= 0) {
-            output.add(v1);
-        }
-        // If v2 is inside, keep it.
-        if (d2 >= 0) {
-            output.add(v2);
-        }
-        // If they are on different sides, compute intersection.
-        if (d1 * d2 < 0) {
-            double t = d1 / (d1 - d2);
-            Vec2 intersection = v1.add(v2.subtract(v1).multiply(t));
-            output.add(intersection);
-        }
-        return output;
     }
 
 

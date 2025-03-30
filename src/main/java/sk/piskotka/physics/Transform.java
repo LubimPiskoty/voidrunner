@@ -12,8 +12,19 @@ public class Transform {
     private Vec2 position;
     private double rotation;
 
-    public Transform(){
+    private Transform(){
         children = new ArrayList<>();
+    }
+    
+    public Transform(Vec2 position){
+        children = new ArrayList<>();
+        setLocalPos(position);
+    }
+    
+    public Transform(Vec2 position, Transform parent){
+        children = new ArrayList<>();
+        setLocalPos(position);
+        setParent(parent);
     }
 
     public void setParent(Transform parent){

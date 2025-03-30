@@ -20,11 +20,13 @@ public class Level {
     private PlayerShip player;
     private List<PhysicsBody> pBodies;
     private List<PhysicsBody> markedForDeletion;
+    private List<PhysicsBody> markedForCreation;
     private int resolutionSteps;
 
     public Level(){
         Logger.logInfo(getClass(), "Creating new level");
         this.markedForDeletion = new ArrayList<>();
+        this.markedForCreation = new ArrayList<>();
         this.pBodies = new LinkedList<>();
         this.root = Transform.createRoot();
         this.resolutionSteps = 4; // Bigger number makes simulation more stable
@@ -34,14 +36,7 @@ public class Level {
         Logger.logInfo(getClass(), "Adding new entity typeof: " + pBody.toString());
         if (pBody instanceof PlayerShip)
             setPlayer((PlayerShip)pBody);
-        
-        pBodies.add(pBody);
-        pBody.setParent(root);
-    }
-    
-    public void create(PhysicsBody pBody, Transform parent){
-        create(pBody);
-        pBody.setParent(parent);
+        markedForCreation.add(pBody);
     }
 
     public void destroy(PhysicsBody pBody){
@@ -59,6 +54,16 @@ public class Level {
         markedForDeletion.clear();
     }
 
+    private void createMarked(){
+        for(PhysicsBody p : markedForCreation){            
+            pBodies.add(p);
+            p.setParent(root);
+        }
+        markedForCreation.clear();
+    }
+
+
+
     public PlayerShip getPlayer() {
         return player;
     }
@@ -74,6 +79,7 @@ public class Level {
             pb.update(dt); // Update physics etc
 
         destroyMarked();
+        createMarked();
 
         // Check for collision and resolve them
         for(int i = 0; i < this.resolutionSteps; i++){

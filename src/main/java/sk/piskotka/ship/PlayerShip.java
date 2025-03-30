@@ -15,13 +15,11 @@ public class PlayerShip extends Spaceship{
     private Transform gunTransform;
 
     public PlayerShip(int x, int y) {
-        super(x, y, 200, 5);
+        super(x, y, 20, 5);
         setShape(new PolygonShape(0, 0, 50, 3));
         nose = new PolygonShape(0, 0, 9, 4);
         
-        gunTransform = new Transform();
-        gunTransform.setParent(this);   
-        gunTransform.setLocalPos(new Vec2(50, 0));
+        gunTransform = new Transform(new Vec2(50, 0), this);
     }
 
     @Override

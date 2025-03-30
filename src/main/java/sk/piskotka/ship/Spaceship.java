@@ -7,7 +7,7 @@ import sk.piskotka.physics.Vec2;
 import sk.piskotka.projectile.Projectile;
 
 public abstract class Spaceship extends PhysicsBody{
-    private Timer attackTimer;
+    protected Timer attackTimer;
 
     protected Spaceship(int x, int y, float speed, float attackSpeed) {
         super(x, y);

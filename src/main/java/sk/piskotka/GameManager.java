@@ -8,6 +8,7 @@ import sk.piskotka.enviroment.Asteroid;
 import sk.piskotka.logger.Logger;
 import sk.piskotka.physics.Vec2;
 import sk.piskotka.render.Renderer;
+import sk.piskotka.ship.EnemyShip;
 import sk.piskotka.ship.PlayerShip;
 
 public class GameManager {
@@ -39,6 +40,7 @@ public class GameManager {
         
         level.create(new PlayerShip(ctx.getWidth()/2, ctx.getHeight()/2));
         level.create(new Asteroid(550, 550, 0));
+        level.create(new EnemyShip(700, 200, 0.6f, 1));
         level.printLevelHierarchy();
     }
 

@@ -22,32 +22,29 @@ public abstract class PhysicsBody extends Transform implements Drawable, Collisi
         collider = new Collider(this, shape.getPoints());
     }
 
-    protected Vec2 vel, acc;
+    protected Vec2 vel;
     protected float speed;
     protected float maxSpeed;
 
     public PhysicsBody(int x, int y){
-        this.setLocalPos(new Vec2(x, y));
+        super(new Vec2(x, y));
         this.setLocalRot(0);
         this.health = 0;
         this.maxHealth = 0;
         this.speed = 0;
         this.maxSpeed = 500;
         this.vel = Vec2.ZERO();
-        this.acc = Vec2.ZERO();
     }
 
     public void ApplyForce(Vec2 vec){
-        acc = acc.add(vec);   
+        vel = vel.add(vec);   
     }
 
     public void update(double dt){
-        vel = vel.add(acc.multiply(dt));
         if (vel.length() > maxSpeed)
             vel = vel.normalized().multiply(maxSpeed);
 
         setLocalPos(getLocalPos().add(vel.multiply(dt)));
-        acc = Vec2.ZERO();
         
         if (collider == null)
             Logger.throwError(getClass(), "update: Collider is null. Did you forget to add one?");

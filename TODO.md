@@ -1,5 +1,16 @@
 # TODO file
 
+## URGENT
+
+- [] Make 2 enemy classes
+- [] Implement health and damage taking
+- [] Make tests for player class
+- [] Comment whole codebase for javadoc
+- [] Upload to school github
+- [] Write the documentation
+
+### Not urget
+
 - [x] Mouse input
 - [x] Polygon drawing
 - [x] Check if Vec2 writing is OOP friendly
@@ -17,7 +28,7 @@
 - [] Procedural asteroids
 - [] ParticleSystem
 - [] Add exeption handlers (No clue where i could add this)
-- [] Add class names? maybe
+- [] Add object names? maybe
 
 ## Refactoring
 
@@ -33,4 +44,4 @@ Refactor input and event handling into a class
 ## Collider class design
 
 Collider will have a bounding AABB Box for fast collision checking and then a detailed shape for precise collision.
-Detailed collision will be made after https://github.com/jessevdk/box2d/blob/master/Box2D/Box2D/Collision/b2CollidePolygon.cpp
+Detailed collision will be made after <https://github.com/jessevdk/box2d/blob/master/Box2D/Box2D/Collision/b2CollidePolygon.cpp>

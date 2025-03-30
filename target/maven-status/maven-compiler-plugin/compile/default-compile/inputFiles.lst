@@ -5,6 +5,7 @@
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/shapes/TriangleShape.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/physics/Transform.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/ship/Spaceship.java
+/home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/ship/EnemyShip.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/ship/PlayerShip.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/enviroment/EnvironmentObject.java
 /home/piskotka/stuba/sem2/OOP_B/voidrunner/src/main/java/sk/piskotka/projectile/Projectile.java
