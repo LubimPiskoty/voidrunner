@@ -8,8 +8,10 @@ import sk.piskotka.enviroment.Asteroid;
 import sk.piskotka.logger.Logger;
 import sk.piskotka.physics.Vec2;
 import sk.piskotka.render.Renderer;
+import sk.piskotka.ship.CruiserEnemy;
 import sk.piskotka.ship.EnemyShip;
 import sk.piskotka.ship.PlayerShip;
+import sk.piskotka.ship.TankEnemy;
 
 public class GameManager {
     private static GameManager instance;
@@ -32,15 +34,17 @@ public class GameManager {
         
         // Init create all other variables
         this.isDebug = false;
-        this.targetFrametime = 0.016;
+        this.targetFrametime = 0.015;
         this.ctx = ctx;
         this.startTime = System.currentTimeMillis();
         randomGenerator = new Random();
         level = new Level();
         
-        level.create(new PlayerShip(ctx.getWidth()/2, ctx.getHeight()/2));
-        level.create(new Asteroid(550, 550, 0));
-        level.create(new EnemyShip(700, 200, 0.6f, 1));
+        level.create(new PlayerShip(ctx.getWidth()/2, ctx.getHeight()/2, 100, 100));
+        level.create(new Asteroid(200, 300, 0.2));
+        level.create(new Asteroid(650, 700, -0.3));
+        level.create(new TankEnemy(ctx.getWidth()/3*2, ctx.getHeight()/2));
+        level.create(new CruiserEnemy(ctx.getWidth()/3, ctx.getHeight()/2));
         level.printLevelHierarchy();
     }
 

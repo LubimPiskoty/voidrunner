@@ -2,8 +2,10 @@ package sk.piskotka.physics;
 
 import javafx.scene.paint.Color;
 import sk.piskotka.GameManager;
+import sk.piskotka.components.Collider;
+import sk.piskotka.components.Component;
+import sk.piskotka.components.Collider.CollisionInfo;
 import sk.piskotka.logger.Logger;
-import sk.piskotka.physics.Collider.CollisionInfo;
 import sk.piskotka.render.Drawable;
 import sk.piskotka.shapes.Shape;
 
@@ -11,7 +13,7 @@ public abstract class PhysicsBody extends Transform implements Drawable, Collisi
     int health;
     int maxHealth;
 
-    private Collider collider;
+    public Collider collider;
     public Collider getCollider() {return collider;}
 
     private Shape shape;
@@ -51,20 +53,19 @@ public abstract class PhysicsBody extends Transform implements Drawable, Collisi
     }
 
     public void handleCollisionWith(PhysicsBody other){
+        // Logger.logDebug(getClass(), "CHECKING COLLISIONS: " + collider + " with " + other.collider);
         CollisionInfo cInfo = collider.checkCollisionWith(other.collider);
         if (cInfo.result)
             resolveCollision(other, cInfo);
     }
 
     private void resolveCollision(PhysicsBody other, CollisionInfo cInfo){
-        for(Vec2 contact : cInfo.contacts)
-            GameManager.getRenderer().drawCross(contact.add(getGlobalPos()), 10, Color.RED);
+        // for(Vec2 contact : cInfo.contacts)
+        //     GameManager.getRenderer().drawCross(contact.add(getGlobalPos()), 10, Color.RED);
     }
 
     @Override
-    public void onCollision(Collider other) {
-        //Logger.logDebug(getClass(), this + " has collided with " + other);
-    }
+    public void onCollision(Collider other) {}
 
     @Override
     public void onTriggerEnter(Collider other) {}

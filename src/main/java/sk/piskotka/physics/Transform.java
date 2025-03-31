@@ -3,6 +3,7 @@ package sk.piskotka.physics;
 import java.util.ArrayList;
 import java.util.List;
 
+import sk.piskotka.GameManager;
 import sk.piskotka.logger.Logger;
 
 public class Transform {

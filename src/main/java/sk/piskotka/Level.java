@@ -5,8 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javafx.scene.paint.Color;
+import sk.piskotka.components.Collider;
 import sk.piskotka.logger.Logger;
-import sk.piskotka.physics.Collider;
 import sk.piskotka.physics.PhysicsBody;
 import sk.piskotka.physics.Transform;
 import sk.piskotka.physics.Vec2;
@@ -33,17 +33,17 @@ public class Level {
     }
 
     public void create(PhysicsBody pBody){
-        Logger.logInfo(getClass(), "Adding new entity typeof: " + pBody.toString());
+        //Logger.logInfo(getClass(), "Adding new entity typeof: " + pBody.toString());
         if (pBody instanceof PlayerShip)
             setPlayer((PlayerShip)pBody);
         markedForCreation.add(pBody);
     }
 
     public void destroy(PhysicsBody pBody){
-        Logger.logInfo(getClass(), "Destroying entity: " + pBody.toString());
+        //Logger.logInfo(getClass(), "Destroying entity: " + pBody.toString());
+        markedForDeletion.add(pBody);
         if (pBody instanceof PlayerShip)
             Logger.throwError(getClass(), "Player was destroyed from level");
-        markedForDeletion.add(pBody);
     }
 
     private void destroyMarked(){
@@ -78,22 +78,19 @@ public class Level {
         for(PhysicsBody pb : pBodies)
             pb.update(dt); // Update physics etc
 
-        destroyMarked();
-        createMarked();
 
-        // Check for collision and resolve them
-        for(int i = 0; i < this.resolutionSteps; i++){
-            // Check each combination of pBodies
-            PhysicsBody A, B;
-            for(int a = 0; a < pBodies.size()-1; a++){
-                A = pBodies.get(a);
-     
-                for(int b = a+1; b < pBodies.size(); b++){
-                    B = pBodies.get(b);
-                    A.handleCollisionWith(B);
-                }
+        // Check each combination of pBodies
+        PhysicsBody A, B;
+        for(int a = 0; a < pBodies.size()-1; a++){
+            A = pBodies.get(a);
+    
+            for(int b = a+1; b < pBodies.size(); b++){
+                B = pBodies.get(b);
+                A.handleCollisionWith(B);
             }
         }
+        destroyMarked();
+        createMarked();
     }
 
     public void render(Renderer ctx){

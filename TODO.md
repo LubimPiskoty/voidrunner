@@ -2,8 +2,10 @@
 
 ## URGENT
 
-- [] Make 2 enemy classes
-- [] Implement health and damage taking
+- [x] Make 2 enemy classes
+- [x] Make 2 projectile classes
+- [x] Implement health and damage taking
+- [] OpenGl renderer? cuz it looks horrible and id like to have som effets and blom :3
 - [] Make tests for player class
 - [] Comment whole codebase for javadoc
 - [] Upload to school github
