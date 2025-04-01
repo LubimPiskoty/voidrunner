@@ -22,6 +22,10 @@ public class Timer {
         return targetTime - currTime;
     }
 
+    public double completion(){
+        return currTime/targetTime;
+    }
+
     public boolean isReady(){
         return remainingTime() <= 0;
     }

@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -31,9 +32,8 @@ public class App extends Application{
         stage.setResizable(false);
         stage.setWidth(WIDTH);
         stage.setHeight(HEIGHT);
-        Group root = new Group();
-        Renderer renderer = new Renderer(root, WIDTH, HEIGHT);
-        Scene scene = new Scene(root);
+        Canvas canvas = new Canvas(WIDTH, HEIGHT);
+        Scene scene = new Scene(new Group(canvas));
         stage.setScene(scene);
 
         // Input handeling
@@ -89,6 +89,7 @@ public class App extends Application{
         });
         
         // Game loop
+        Renderer renderer = new Renderer(canvas, WIDTH, HEIGHT);
         GameManager gameManager = new GameManager(renderer);
         new AnimationTimer()
         {
@@ -96,11 +97,9 @@ public class App extends Application{
             public void handle(long currentNanoTime)
             {
                 double dt = (currentNanoTime - lastNanoTime) / 1000000000.0;
-                if (dt > gameManager.targetFrametime){
-                    stage.setTitle(String.format("Gametitle: %.2fms", dt*1000));
-                    gameManager.run(input, mousePos, dt);
-                    lastNanoTime = currentNanoTime;
-                }
+                stage.setTitle(String.format("Gametitle: %.2fms", dt*1000));
+                gameManager.run(input, mousePos, dt);
+                lastNanoTime = currentNanoTime;
             }
         }.start();
         stage.show();

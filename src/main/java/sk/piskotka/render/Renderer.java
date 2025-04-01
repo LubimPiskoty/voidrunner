@@ -1,170 +1,78 @@
 package sk.piskotka.render;
 
-import java.nio.IntBuffer;
-import java.util.ArrayList;
-import java.util.List;
-
-import javafx.scene.Group;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.PixelBuffer;
-import javafx.scene.image.PixelFormat;
-import javafx.scene.image.WritableImage;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.paint.Color;
-import sk.piskotka.logger.Logger;
+import sk.piskotka.camera.Camera;
+import sk.piskotka.effects.Particle;
 import sk.piskotka.physics.Transform;
 import sk.piskotka.physics.Vec2;
 import sk.piskotka.shapes.Shape;
 
+@SuppressWarnings("unused")
 public class Renderer {
     private int width, height;
-    public int getHeight() {
-        return height;
-    }
+    public int getHeight() {return height;}
+    public int getWidth() {return width;}
 
-    public int getWidth() {
-        return width;
-    }
+    private GraphicsContext ctx;
+    public GraphicsContext getContext() {return ctx;}
 
-    private int[] pixels;
-    private PixelBuffer<IntBuffer> pixelBuffer;
-
-    public Renderer(Group root, int width, int height) {
+    private Camera activeCamera;
+    
+    public Camera getActiveCamera() {return activeCamera;}
+    public void setActiveCamera(Camera activeCamera) {this.activeCamera = activeCamera;}
+    
+    public Renderer(Canvas canvas, int width, int height) {
         this.width = width;
         this.height = height;
         // set up pixel buffer
-        IntBuffer buffer = IntBuffer.allocate(width * height);
-        pixels = buffer.array();
-        pixelBuffer = new PixelBuffer<>(width, height, buffer, PixelFormat.getIntArgbPreInstance());
-
-        WritableImage image = new WritableImage(pixelBuffer);
-
-        root.getChildren().add(new ImageView(image));
+        ctx = canvas.getGraphicsContext2D();
+        ctx.setGlobalBlendMode(BlendMode.SRC_OVER);
     }
 
-    public void clearScreen(Color color){
-        for(int i = 0; i < width*height; i++)
-            pixels[i] = getColor(color);
+    public void clearBackground(Color color){
+        ctx.setFill(color);
+        ctx.fillRect(0, 0, width, height);
     }
 
-    public void drawPolygonWithTransform(Transform transform, Shape polygon, Color color){
-        Vec2 global = transform.getGlobalPos();
-
-        drawPolygonWithOffset(global.getX(), global.getY(),
-                                polygon.rotated(transform.getGlobalRot()).getPoints(), color);
+    private Shape applyTransfrom(Shape shape, Transform transform){
+        return shape.rotated(transform.getRotation()).moved(transform.getGlobalPos());
     }
 
-    public void drawPolygonWithOffset(int x, int y, List<Vec2> points, Color color){
-        if (points.size() == 0){
-            Logger.throwError(getClass(), "drawPolygonWithOffset was called with empty points list!!");
-            return;
-        }
-        Vec2 prev, next;
-        for(int i = 1; i < points.size(); i++){
-            prev = points.get(i-1);
-            next = points.get(i);
-            drawLine(prev.getX()+x, prev.getY()+y, next.getX()+x, next.getY()+y, color);
-        }
-        prev = points.get(0);
-        next = points.get(points.size()-1);
-        drawLine(next.getX()+x, next.getY()+y, prev.getX()+x, prev.getY()+y, color); 
+    private Vec2 applyTransfrom(Vec2 point, Transform transform){
+        return point.rotated(transform.getRotation()).add(transform.getGlobalPos());
     }
 
-    public void drawPolygon(List<Vec2> points, Color color){
-        drawPolygonWithOffset(0, 0, points, color);
+    /**
+     * @param transform Objects tranform
+     * @param shape Shape to be drawn
+     * @param color Color of the drawn shape
+     */
+    public void drawShape(Transform transform, Shape shape, Color color){
+        shape = activeCamera.applyCamera(applyTransfrom(shape, transform));
+        // Logger.logDebug(getClass(), "Shape position is: " + shape.getPoints()); 
+        ctx.setStroke(color);
+        ctx.strokePolygon(shape.getPointsX(),shape.getPointsY(), shape.getSize());
     }
 
-    public void drawCross(Vec2 pos, int r, Color color){
-        int x = pos.getX();
-        int y = pos.getY();
-        drawLine(x-r, y-r, x+r, y+r, color);
-        drawLine(x-r, y+r, x+r, y-r, color);
+    public void drawProgressbar(Vec2 position, double length, float percentage, Color background, Color foreground) {
+        position = activeCamera.applyCamera(position);
+        ctx.setStroke(background);
+        ctx.strokeLine(position.getX()-length/2, position.getY(), position.getX()+length/2, position.getY());
+        ctx.setStroke(foreground);
+        double progress = (length*percentage)-length;
+        ctx.strokeLine(position.getX()-length/2, position.getY(), position.getX()+progress, position.getY());
     }
-
-    public void drawCross(int x, int y, int r, Color color){
-        drawLine(x-r, y-r, x+r, y+r, color);
-        drawLine(x-r, y+r, x+r, y-r, color);
-    }
-
-    public void drawLine(int x1, int y1, int x2, int y2, Color color){
-        // Ensure y2 is bigger than y1, same for x2,x1
-        int tmp;
-
-
-        // Handle vertical and horizontal lines
-        if (Math.abs(x2-x1) > Math.abs(y2-y1)){
-            // Line is horizontal ish
-            if (x1 > x2){
-                tmp = x1;
-                x1 = x2;
-                x2 = tmp;
-                tmp = y1;
-                y1 = y2;
-                y2 = tmp;
-            }
-            List<Integer> vals = linearFunc(x1, y1, x2, y2);
-            for(int i = x1; i < x2; i++)
-                drawPixel(i, vals.get(i-x1), color);
-            
-        } else {
-            if (y1 > y2){
-                tmp = x1;
-                x1 = x2;
-                x2 = tmp;
-                tmp = y1;
-                y1 = y2;
-                y2 = tmp;
-            }
-            List<Integer> vals = linearFunc(y1, x1, y2, x2);
-            for(int i = y1; i < y2; i++)
-                drawPixel(vals.get(i-y1), i, color);
-            
-        }
-    }
-
-    private void drawPixel(int x, int y, Color color) {
-        if (x >= width || y >= height || x < 0 || y < 0){
-            //System.out.println("(E) In drawPixel args out of canvas size!!");
-            return;
-        }
-            
-        pixels[(x % width) + (y * width)] = getColor(color);
-    }
-
-    // Refactored version of draw line to save lines
-    // y2 and x2 must be bigger than their respective counterparts
-    private List<Integer> linearFunc(int x1, int y1, int x2, int y2) {
-        List<Integer> vals = new ArrayList<>();
-        if (x2-x1 == 0){ // Vertical line
-            for(int i = y1; i < y2; i++)
-                vals.add(x1);
-            return vals;
-        }
-
-        double k = (double)(y2-y1)/(double)(x2-x1);
-        for(int i = x1; i < x2; i++){
-            int j = (int)(k*(i-x1)+y1);
-            vals.add(j);
-        }
-        return vals;
-    }
-
-    public void updateScreen(){
-        pixelBuffer.updateBuffer(b -> null);
-    }
-
-    public static int getColor(Color color) {
-        return 255 << 24 | (int)(color.getRed()*255) << 16 | (int)(color.getGreen()*255) << 8 | (int)(color.getBlue()*255);
-    }
-
-    // Debuging rendering
-    public void drawVector(Vec2 origin, Vec2 v, Color color){
-        List<Vec2> points = new ArrayList<>();
-        points.add(v);
-        points.add(Vec2.ZERO());
-        points.add(v);
-        points.add(v.rotated(-Math.PI/45).multiply(0.9));
-        points.add(v.rotated(+Math.PI/45).multiply(0.9));
-        
-        drawPolygonWithOffset(origin.getX(), origin.getY(), points, color);
+    public void drawParticle(Particle p, Color color, double lifePercentage) {
+        Vec2 position = activeCamera.applyCamera(p.getPos());
+        //TODO: Add easing function
+        Color newColor = color.deriveColor(0, 1, 1, 1-lifePercentage);
+        // Logger.logDebug(getClass(), "New color: " + newColor);
+        ctx.setStroke(newColor);
+        ctx.strokeRect(position.getX(), position.getY(), 1, 1);
+        // ctx.getPixelWriter().setColor((int)position.getX(), (int)position.getY(), newColor);
+        //! Why does this way of drawing ignore transparency?
     }
 }

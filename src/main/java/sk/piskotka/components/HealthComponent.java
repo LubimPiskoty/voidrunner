@@ -27,11 +27,7 @@ public class HealthComponent extends Component{
     public void increaseHealth(float amount){health = Math.min(maxHealth, health+amount);}
 
     public void drawHealth(Renderer ctx, Vec2 position){
-        int length = 50;
-        int padding = 10;
-        int progress = (int)(length*getPercentage())-length/2;
-        ctx.drawLine(position.getX()-length/2, position.getY()-padding, position.getX()+length/2, position.getY()-padding, Color.WHITESMOKE);
-        ctx.drawLine(position.getX()-length/2, position.getY()-padding, position.getX()+progress, position.getY()-padding, Color.GREEN);
+        ctx.drawProgressbar(position.add(Vec2.UP().multiply(50)), 50, getPercentage(), Color.WHITESMOKE, Color.GREEN);
     }
     
 }

@@ -1,11 +1,9 @@
 package sk.piskotka.components;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javafx.scene.paint.Color;
-import sk.piskotka.GameManager;
+
 import sk.piskotka.logger.Logger;
 import sk.piskotka.physics.CollisionEvents;
 import sk.piskotka.physics.PhysicsBody;
@@ -13,8 +11,6 @@ import sk.piskotka.physics.Transform;
 import sk.piskotka.physics.Vec2;
 import sk.piskotka.render.Drawable;
 import sk.piskotka.render.Renderer;
-import sk.piskotka.shapes.PolygonShape;
-import sk.piskotka.shapes.Shape;
 
 //TODO: Check if shape is convex and split up into multiple colliders if needed
 public class Collider extends Component implements Drawable {
@@ -48,17 +44,17 @@ public class Collider extends Component implements Drawable {
         computeBoundingCircle();
     }
 
-    private List<Vec2> computeEdgeNormals(List<Vec2> vertices){
-        List<Vec2> normals = new ArrayList<>();
+    // private List<Vec2> computeEdgeNormals(List<Vec2> vertices){
+    //     List<Vec2> normals = new ArrayList<>();
 
-        Vec2 prev = vertices.get(vertices.size()-1);
-        for(Vec2 next : vertices){
-            normals.add(prev.subtract(next).normal().normalized());
-            prev = next;
-        }
+    //     Vec2 prev = vertices.get(vertices.size()-1);
+    //     for(Vec2 next : vertices){
+    //         normals.add(prev.subtract(next).normal().normalized());
+    //         prev = next;
+    //     }
 
-        return normals;
-    }
+    //     return normals;
+    // }
 
     private void computeBoundingCircle(){
 
@@ -113,10 +109,10 @@ public class Collider extends Component implements Drawable {
     @Override
     public void draw(Renderer ctx) {
         // Debug only
-        Shape circleShape = new PolygonShape(boundingCircleCenter.getX(), boundingCircleCenter.getY(),
-                                            (int)boundingCircleRadius, 16);
-        Vec2 pos = transform.getGlobalPos();
-        ctx.drawPolygonWithOffset(pos.getX(), pos.getY(), circleShape.getPoints(), isColliding() ? Color.RED.darker() : Color.GREEN.darker());
+        // Shape circleShape = new PolygonShape(boundingCircleCenter.getX(), boundingCircleCenter.getY(),
+        //                                     (int)boundingCircleRadius, 16);
+        // Vec2 pos = transform.getGlobalPos();
+        // ctx.drawPolygonWithOffset(pos.getX(), pos.getY(), circleShape.getPoints(), isColliding() ? Color.RED.darker() : Color.GREEN.darker());
 
     }
 

@@ -5,12 +5,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javafx.scene.paint.Color;
-import sk.piskotka.components.Collider;
 import sk.piskotka.logger.Logger;
 import sk.piskotka.physics.PhysicsBody;
 import sk.piskotka.physics.Transform;
-import sk.piskotka.physics.Vec2;
-import sk.piskotka.projectile.Projectile;
+import sk.piskotka.render.Drawable;
 import sk.piskotka.render.Renderer;
 import sk.piskotka.ship.PlayerShip;
 
@@ -18,28 +16,26 @@ import sk.piskotka.ship.PlayerShip;
 public class Level {
     private Transform root;
     private PlayerShip player;
-    private List<PhysicsBody> pBodies;
-    private List<PhysicsBody> markedForDeletion;
-    private List<PhysicsBody> markedForCreation;
-    private int resolutionSteps;
+    private List<Transform> objects;
+    private List<Transform> markedForDeletion;
+    private List<Transform> markedForCreation;
 
     public Level(){
         Logger.logInfo(getClass(), "Creating new level");
         this.markedForDeletion = new ArrayList<>();
         this.markedForCreation = new ArrayList<>();
-        this.pBodies = new LinkedList<>();
+        this.objects = new LinkedList<>();
         this.root = Transform.createRoot();
-        this.resolutionSteps = 4; // Bigger number makes simulation more stable
     }
 
-    public void create(PhysicsBody pBody){
+    public void create(Transform pBody){
         //Logger.logInfo(getClass(), "Adding new entity typeof: " + pBody.toString());
         if (pBody instanceof PlayerShip)
             setPlayer((PlayerShip)pBody);
         markedForCreation.add(pBody);
     }
 
-    public void destroy(PhysicsBody pBody){
+    public void destroy(Transform pBody){
         //Logger.logInfo(getClass(), "Destroying entity: " + pBody.toString());
         markedForDeletion.add(pBody);
         if (pBody instanceof PlayerShip)
@@ -47,22 +43,20 @@ public class Level {
     }
 
     private void destroyMarked(){
-        for(PhysicsBody p : markedForDeletion){
+        for(Transform p : markedForDeletion){
             p.onDeath();
-            pBodies.remove(p);
+            objects.remove(p);
         }
         markedForDeletion.clear();
     }
 
     private void createMarked(){
-        for(PhysicsBody p : markedForCreation){            
-            pBodies.add(p);
+        for(Transform p : markedForCreation){            
+            objects.add(p);
             p.setParent(root);
         }
         markedForCreation.clear();
     }
-
-
 
     public PlayerShip getPlayer() {
         return player;
@@ -75,12 +69,13 @@ public class Level {
     }
 
     public void update(double dt){
-        for(PhysicsBody pb : pBodies)
-            pb.update(dt); // Update physics etc
-
-
-        // Check each combination of pBodies
+        for(Transform obj : objects)
+        obj.update(dt); // Update physics etc
+        
+        
+        // Check each combination of objects
         PhysicsBody A, B;
+        List<PhysicsBody> pBodies = getPhysicsBodies();
         for(int a = 0; a < pBodies.size()-1; a++){
             A = pBodies.get(a);
     
@@ -91,22 +86,22 @@ public class Level {
         }
         destroyMarked();
         createMarked();
-    }
-
-    public void render(Renderer ctx){
-        for(PhysicsBody pb : pBodies){
-            pb.draw(ctx);
-
-            if (GameManager.getInstance().isDebug()){
-                pb.getCollider().draw(ctx);
-            }
-        }
+        
     }
     
+    public void render(Renderer ctx){
+        ctx.clearBackground(Color.web("1b1b1b").darker());
+        // Create background paralax
+
+        for(Transform object : objects)
+            if (object instanceof Drawable)
+                ((Drawable)object).draw(ctx);
+    }
+
     private String printHierarchy(Transform transform, int depth){
         // Print current transform with indentation
         
-        String wholePrint = "\n" + " ".repeat(depth * 2) + "- " + transform.toString(); 
+        String wholePrint = "\n" + " ".repeat(depth * 2) + "- " + (transform == root ? "root" : transform.toString()); 
         
         // Recursively print all children
         for (Transform child : transform.getChildren()) {
@@ -116,6 +111,14 @@ public class Level {
     }
 
     public void printLevelHierarchy(){
-        Logger.logDebug(getClass(), printHierarchy(root, 0));
+        Logger.logInfo(getClass(), printHierarchy(root, 0));
+    }
+
+    private List<PhysicsBody> getPhysicsBodies(){
+        List<PhysicsBody> pBodies = new ArrayList<>();
+        for(Transform t : objects)
+            if (t instanceof PhysicsBody)
+                pBodies.add((PhysicsBody)t);
+        return pBodies;
     }
 }

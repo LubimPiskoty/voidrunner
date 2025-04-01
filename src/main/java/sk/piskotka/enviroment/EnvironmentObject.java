@@ -7,14 +7,14 @@ import sk.piskotka.physics.Vec2;
 public abstract class EnvironmentObject extends PhysicsBody{
     
     public EnvironmentObject(int x, int y){
-        super(x, y);
+        super(x, y, GameManager.getInstance().getRandomGenerator().nextDouble(Math.PI*2));
     }
 
     public EnvironmentObject randomized() {
-        this.vel = Vec2.randomUnit();
-        this.speed = GameManager.getInstance().randomGenerator.nextFloat()*20+15;
-        this.setLocalRot(GameManager.getInstance().randomGenerator.nextDouble());
-        this.vel.multiply(speed);
+        setVelocity(Vec2.randomUnit());
+        this.speed = GameManager.getInstance().getRandomGenerator().nextFloat()*20+15;
+        this.setRotation(GameManager.getInstance().getRandomGenerator().nextDouble());
+        setVelocity(getVelocity().multiply(speed));
         return this;
     }
 }

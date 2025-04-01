@@ -66,11 +66,11 @@ public class Transform {
         this.position = position;
     }
 
-    public double getLocalRot(){
+    public double getRotation(){
         return rotation;
     }
 
-    public void setLocalRot(double rotation){
+    public void setRotation(double rotation){
         this.rotation = rotation;
     }
 
@@ -78,36 +78,36 @@ public class Transform {
         if (isRoot() || parent.isRoot())
             return getLocalPos(); // Ill just ignore root rotation and position
 
-        return getLocalPos().rotated(parent.getLocalRot()).add(parent.getGlobalPos());
+        return getLocalPos().rotated(parent.getRotation()).add(parent.getGlobalPos());
     }
 
-    public double getGlobalRot(){
-        if (isRoot() || parent.isRoot())
-            return getLocalRot();
-        return getLocalRot()+parent.getGlobalRot();
-    }
+    // public double getGlobalRot(){
+    //     if (isRoot() || parent.isRoot())
+    //         return getRotation();
+    //     return getRotation()+parent.getGlobalRot();
+    // }
 
     public Vec2 getGlobalFromLocalPos(Vec2 local){
-        return local.rotated(getLocalRot()).add(getGlobalPos());
+        return local.rotated(getRotation()).add(getGlobalPos());
     }
 
     public List<Vec2> transformPoints(List<Vec2> local){
         Vec2 globalPos = getGlobalPos();
         List<Vec2> global = new ArrayList<>();
         for (Vec2 point : local) {
-            global.add(point.rotated(getLocalRot()).add(globalPos));
+            global.add(point.rotated(getRotation()).add(globalPos));
         }
         return global;
     }
 
-    public List<Vec2> movePoints(List<Vec2> local){
-        Vec2 globalPos = getGlobalPos();
-        List<Vec2> global = new ArrayList<>();
-        for (Vec2 point : local) {
-            global.add(globalPos);
-        }
-        return global;
-    }
+    // public List<Vec2> movePoints(List<Vec2> local){
+    //     Vec2 globalPos = getGlobalPos();
+    //     List<Vec2> global = new ArrayList<>();
+    //     for (Vec2 point : local) {
+    //         global.add(globalPos);
+    //     }
+    //     return global;
+    // }
 
     public boolean isRoot(){
         return parent == null;
@@ -126,4 +126,14 @@ public class Transform {
     public void onDeath(){
         getParent().removeChild(this);
     };
+
+    public void update(double dt){};
+
+    public static void Create(Transform transform){
+        GameManager.getLevel().create(transform);
+    }
+
+    public static void Destroy(Transform transform){
+        GameManager.getLevel().destroy(transform);
+    }
 }

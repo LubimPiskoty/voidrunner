@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 import sk.piskotka.GameManager;
 
+@SuppressWarnings("unused")
 public class Logger {
     public static Logger instance;
     //TODO: Make this bools into arg params

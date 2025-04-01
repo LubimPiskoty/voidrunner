@@ -3,29 +3,29 @@ package sk.piskotka;
 import java.util.List;
 import java.util.Random;
 
-import javafx.scene.paint.Color;
+import sk.piskotka.camera.Camera;
+import sk.piskotka.camera.FollowerCamera;
 import sk.piskotka.enviroment.Asteroid;
 import sk.piskotka.logger.Logger;
 import sk.piskotka.physics.Vec2;
 import sk.piskotka.render.Renderer;
 import sk.piskotka.ship.CruiserEnemy;
-import sk.piskotka.ship.EnemyShip;
 import sk.piskotka.ship.PlayerShip;
 import sk.piskotka.ship.TankEnemy;
 
 public class GameManager {
     private static GameManager instance;
     public static boolean isRunning = true;
-    public double targetFrametime;
-    public Random randomGenerator;
-    public long startTime;
-    public Level level;
-    private Renderer ctx;
+    private Random randomGenerator;
+    public Random getRandomGenerator() {return randomGenerator;}
+
+    private Level level;
+    private Renderer renderer;
 
     private boolean isDebug;
     public static boolean isDebug() {return getInstance().isDebug;}
 
-    public GameManager(Renderer ctx) {
+    public GameManager(Renderer renderer) {
         // Create the singleton
         if (instance == null)
             instance = this;
@@ -34,18 +34,21 @@ public class GameManager {
         
         // Init create all other variables
         this.isDebug = false;
-        this.targetFrametime = 0.015;
-        this.ctx = ctx;
-        this.startTime = System.currentTimeMillis();
+        this.renderer = renderer;
+
         randomGenerator = new Random();
         level = new Level();
         
-        level.create(new PlayerShip(ctx.getWidth()/2, ctx.getHeight()/2, 100, 100));
-        level.create(new Asteroid(200, 300, 0.2));
-        level.create(new Asteroid(650, 700, -0.3));
-        level.create(new TankEnemy(ctx.getWidth()/3*2, ctx.getHeight()/2));
-        level.create(new CruiserEnemy(ctx.getWidth()/3, ctx.getHeight()/2));
-        level.printLevelHierarchy();
+        level.create(new PlayerShip(0, 0, 100, 100));
+        level.create(new Asteroid(100, -200, 0.2));
+        level.create(new Asteroid(-200, 100, -0.3));
+        level.create(new TankEnemy(400, 400));
+        level.create(new CruiserEnemy(-400, -400));
+
+        // Always add player before adding camera
+        Vec2 center = new Vec2(renderer.getWidth(), renderer.getHeight()).multiply(0.5);
+        Camera camera = new FollowerCamera(level.getPlayer(), center, 2);
+        renderer.setActiveCamera(camera);
     }
 
     void processEvents(List<String> inputs, Vec2 mousePos){
@@ -67,19 +70,20 @@ public class GameManager {
             this.isDebug = true;
         if (inputs.contains("H"))
             this.isDebug = false;
+        if (inputs.contains("H"))
+            level.printLevelHierarchy();
 
         player.move(inputVec.normalized());
-        player.aim(mousePos);
+        player.aim(mousePos.add(renderer.getActiveCamera().getPosition()));
     }
 
     public void run(List<String> inputs, Vec2 mousePos, double dt) {
         //System.out.println("Events: " + inputs);
         if (isRunning){
-            ctx.clearScreen(Color.BLACK);
             processEvents(inputs, mousePos);
             level.update(dt);
-            level.render(ctx);
-            ctx.updateScreen();
+            renderer.getActiveCamera().update(dt);
+            level.render(renderer);
         }
     }
     
@@ -89,9 +93,5 @@ public class GameManager {
 
     public static Level getLevel(){
         return instance.level;
-    }
-
-    public static Renderer getRenderer(){
-        return instance.ctx;
     }
 }

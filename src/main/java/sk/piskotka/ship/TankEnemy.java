@@ -20,7 +20,7 @@ public class TankEnemy extends EnemyShip {
         int i = 0;
         for(Vec2 verticie : getShape().getPoints()){
             gunPoints[i] = new Transform(verticie, this);
-            gunPoints[i].setLocalRot(verticie.getHeading());
+            gunPoints[i].setRotation(verticie.getHeading());
             i++;
         };
     }
@@ -29,7 +29,7 @@ public class TankEnemy extends EnemyShip {
     protected void shoot() {
         for(Transform gunPoint : gunPoints){
             Vec2 gunPos = gunPoint.getGlobalPos();
-            Projectile p = new NormalAmmo(this, gunPos.getX(), gunPos.getY(), gunPoint.getGlobalRot());
+            Projectile p = new NormalAmmo(this, gunPos.getX(), gunPos.getY(), gunPoint.getRotation());
             GameManager.getLevel().create(p);
         }   
     }
@@ -37,13 +37,12 @@ public class TankEnemy extends EnemyShip {
     @Override
     public void update(double dt) {
         super.update(dt);
-        setLocalRot(getLocalRot()+speed*dt);
+        setRotation(getRotation()+speed*dt);
     }
 
     @Override
     public void draw(Renderer ctx) {
         super.draw(ctx);
-        ctx.drawPolygonWithTransform(this, getShape(), Color.DARKGREEN);
+        ctx.drawShape(this, getShape(), Color.DARKGREEN);
     }
-    
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javafx.scene.paint.Color;
 import sk.piskotka.components.Collider;
+import sk.piskotka.effects.SparksEffect;
 import sk.piskotka.logger.Logger;
 import sk.piskotka.physics.PhysicsBody;
 import sk.piskotka.render.Renderer;
@@ -14,15 +15,15 @@ import sk.piskotka.ship.Spaceship;
 public class PiercingAmmo extends Projectile{
     private List<PhysicsBody> alreadyHit;
 
-    public PiercingAmmo(PhysicsBody whoShotMe, int x, int y, double rotation) {
+    public PiercingAmmo(PhysicsBody whoShotMe, double x, double y, double rotation) {
         super(whoShotMe, x, y, 1500, rotation, 2);
-        setShape(new TriangleShape(0, 0, 12));
+        setShape(new TriangleShape(0, 0, 10));
         alreadyHit = new ArrayList<>();
     }
 
     @Override
     public void draw(Renderer ctx) {
-        ctx.drawPolygonWithTransform(this, getShape(), Color.CYAN);
+        ctx.drawShape(this, getShape(), Color.CYAN);
     }
 
     @Override
@@ -38,7 +39,11 @@ public class PiercingAmmo extends Projectile{
 
         //TODO: Change this into on enter etc
         alreadyHit.add(other.getPhysicsBody());
-        speed -= 500;
+        setVelocity(getVelocity().multiply(0.65));
+        damage /= 2;
+        deathTimer.tick(0.6);
+        Create(new SparksEffect(getGlobalPos(), Color.CYAN, deathTimer.remainingTime()/2, 20));
+
     }
     
 }

@@ -5,7 +5,8 @@
 - [x] Make 2 enemy classes
 - [x] Make 2 projectile classes
 - [x] Implement health and damage taking
-- [] OpenGl renderer? cuz it looks horrible and id like to have som effets and blom :3
+- [] Try to add bloom and add effects
+- [] Fix zoom on camera adn healthbar progress is buggy, FIX TankEnemy shooting dir
 - [] Make tests for player class
 - [] Comment whole codebase for javadoc
 - [] Upload to school github
@@ -24,6 +25,7 @@
 - [x] Despawning if too far
 - [x] Timer class
 - [] Collisions
+- [] Effect will be a builder class type
 - [] Change physics simulation for force based system (include mass)
 - [] Color manager (color pallet settings)
 - [] Spawner manager
@@ -41,6 +43,7 @@ Refactor input and event handling into a class
 
 ## Change the canvas to opengl
 
+! This repo does not work for my notebook so ill ignore it unfortunately
 [OpenGlFX](https://github.com/husker-dev/openglfx)
 
 ## Collider class design

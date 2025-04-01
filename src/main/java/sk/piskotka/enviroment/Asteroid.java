@@ -3,7 +3,6 @@ package sk.piskotka.enviroment;
 import javafx.scene.paint.Color;
 import sk.piskotka.render.Renderer;
 import sk.piskotka.shapes.PolygonShape;
-import sk.piskotka.shapes.RectangleShape;
 
 public class Asteroid extends EnvironmentObject {
     private double rotationSpeed;
@@ -16,15 +15,14 @@ public class Asteroid extends EnvironmentObject {
 
     @Override
     public void draw(Renderer ctx) {
-        ctx.drawPolygonWithOffset(getLocalPos().getX(), getLocalPos().getY(),
-                                getShape().rotated(getLocalRot()).getPoints(), Color.BURLYWOOD);
+        ctx.drawShape(this, getShape(), Color.BURLYWOOD);
     }
 
     @Override
     public void update(double dt) {
-        setLocalRot(getLocalRot() + rotationSpeed*dt);
-        if (getLocalRot() > Math.PI*2)
-            setLocalRot(getLocalRot() - Math.PI*2);
+        setRotation(getRotation() + rotationSpeed*dt);
+        if (getRotation() > Math.PI*2)
+            setRotation(getRotation() - Math.PI*2);
 
         super.update(dt);
     }

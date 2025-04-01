@@ -1,13 +1,14 @@
 package sk.piskotka.physics;
 
 import java.util.Random;
+
 import sk.piskotka.GameManager;
 
 public final class Vec2 {
     private double x, y;
 
-    public int getX() { return (int) x; }
-    public int getY() { return (int) y; }
+    public double getX() { return x; }
+    public double getY() { return y; }
 
     // Constructors
     public Vec2(double x, double y) {
@@ -72,6 +73,15 @@ public final class Vec2 {
     }
 
 
+    //TODO: Refactor
+    public Vec2 lerp(Vec2 target, double t) {
+        return new Vec2(
+            this.x + (target.x - this.x) * t,
+            this.y + (target.y - this.y) * t
+        );
+    }
+
+
     // Static Factory Methods
     public static Vec2 ZERO() { return new Vec2(0, 0); }
     public static Vec2 ONES() { return new Vec2(1, 1); }
@@ -81,7 +91,7 @@ public final class Vec2 {
     public static Vec2 RIGHT() { return new Vec2(1, 0); }
 
     public static Vec2 randomUnit() {
-        Random rand = GameManager.getInstance().randomGenerator;
+        Random rand = GameManager.getInstance().getRandomGenerator();
         Vec2 v = new Vec2(rand.nextDouble() - 0.5, rand.nextDouble() - 0.5);
         return v.normalized();
     }

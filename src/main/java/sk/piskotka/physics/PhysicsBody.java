@@ -1,9 +1,6 @@
 package sk.piskotka.physics;
 
-import javafx.scene.paint.Color;
-import sk.piskotka.GameManager;
 import sk.piskotka.components.Collider;
-import sk.piskotka.components.Component;
 import sk.piskotka.components.Collider.CollisionInfo;
 import sk.piskotka.logger.Logger;
 import sk.piskotka.render.Drawable;
@@ -24,32 +21,39 @@ public abstract class PhysicsBody extends Transform implements Drawable, Collisi
         collider = new Collider(this, shape.getPoints());
     }
 
-    protected Vec2 vel;
+    private Vec2 vel, acc;
+    public Vec2 getVelocity() {return vel;}
+    public void setVelocity(Vec2 vel) {this.vel = vel;}
+
     protected float speed;
     protected float maxSpeed;
 
-    public PhysicsBody(int x, int y){
+    public PhysicsBody(double x, double y, double rotation){
         super(new Vec2(x, y));
-        this.setLocalRot(0);
+        this.setRotation(rotation);
         this.health = 0;
         this.maxHealth = 0;
         this.speed = 0;
-        this.maxSpeed = 500;
+        this.maxSpeed = 350;
+        this.acc = Vec2.ZERO();
         this.vel = Vec2.ZERO();
     }
 
     public void ApplyForce(Vec2 vec){
-        vel = vel.add(vec);   
+        acc = acc.add(vec);   
     }
 
     public void update(double dt){
-        if (vel.length() > maxSpeed)
-            vel = vel.normalized().multiply(maxSpeed);
-
-        setLocalPos(getLocalPos().add(vel.multiply(dt)));
+    vel = vel.add(acc);
         
-        if (collider == null)
-            Logger.throwError(getClass(), "update: Collider is null. Did you forget to add one?");
+    if (vel.length() > maxSpeed)
+    vel = vel.normalized().multiply(maxSpeed);
+    
+    setLocalPos(getLocalPos().add(vel.multiply(dt)));
+    acc = acc.multiply(0);
+        
+    if (collider == null)
+        Logger.throwError(getClass(), "update: Collider is null. Did you forget to add one?");
     }
 
     public void handleCollisionWith(PhysicsBody other){
