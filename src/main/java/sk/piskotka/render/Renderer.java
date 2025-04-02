@@ -2,13 +2,14 @@ package sk.piskotka.render;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.Bloom;
 import javafx.scene.paint.Color;
 import sk.piskotka.camera.Camera;
 import sk.piskotka.effects.Particle;
 import sk.piskotka.physics.Transform;
 import sk.piskotka.physics.Vec2;
 import sk.piskotka.shapes.Shape;
+import sk.piskotka.shapes.TriangleShape;
 
 @SuppressWarnings("unused")
 public class Renderer {
@@ -29,7 +30,8 @@ public class Renderer {
         this.height = height;
         // set up pixel buffer
         ctx = canvas.getGraphicsContext2D();
-        ctx.setGlobalBlendMode(BlendMode.SRC_OVER);
+        // ctx.setGlobalBlendMode(BlendMode.SRC_OVER);
+        ctx.setEffect(new Bloom(0.0));
     }
 
     public void clearBackground(Color color){
@@ -60,10 +62,10 @@ public class Renderer {
     public void drawProgressbar(Vec2 position, double length, float percentage, Color background, Color foreground) {
         position = activeCamera.applyCamera(position);
         ctx.setStroke(background);
-        ctx.strokeLine(position.getX()-length/2, position.getY(), position.getX()+length/2, position.getY());
-        ctx.setStroke(foreground);
-        double progress = (length*percentage)-length;
-        ctx.strokeLine(position.getX()-length/2, position.getY(), position.getX()+progress, position.getY());
+        ctx.strokeRoundRect(position.getX()-length/2, position.getY(), length, length/10, 5, 5);
+        ctx.setFill(foreground);
+        double progress = length*percentage;
+        ctx.fillRoundRect(position.getX()-length/2+1, position.getY()+1, progress, length/10-2, 4, 4);
     }
     public void drawParticle(Particle p, Color color, double lifePercentage) {
         Vec2 position = activeCamera.applyCamera(p.getPos());
@@ -74,5 +76,17 @@ public class Renderer {
         ctx.strokeRect(position.getX(), position.getY(), 1, 1);
         // ctx.getPixelWriter().setColor((int)position.getX(), (int)position.getY(), newColor);
         //! Why does this way of drawing ignore transparency?
+    }
+
+    public void drawArrow(Vec2 position, Vec2 vector, Color color){
+        position = activeCamera.applyCamera(position);
+        ctx.setStroke(color);
+        ctx.setFill(color);
+        ctx.strokeLine(position.getX(), position.getY(), position.getX()+vector.getX(), position.getY()+vector.getY());
+        double vLen = vector.length();
+        double arrowSize = vLen/5;
+        Vec2 endPoint = position.add(vector.multiply((vLen-arrowSize)/vLen));
+        Shape triangle = new TriangleShape(0, 0, arrowSize).rotated(vector.getHeading()).moved(endPoint);
+        ctx.fillPolygon(triangle.getPointsX(), triangle.getPointsY(), triangle.getSize());
     }
 }

@@ -53,7 +53,7 @@ public abstract class Projectile extends PhysicsBody{
             ship.takeDamage(damage);
         }
 
-        Create(new SparksEffect(getGlobalPos(), Color.WHITE, 0.7, 20));
+        Create(new SparksEffect(getGlobalPos(), Color.WHITE, 0.7, 1));
         Destroy(this);
     }
 }

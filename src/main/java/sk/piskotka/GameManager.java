@@ -37,6 +37,7 @@ public class GameManager {
         this.renderer = renderer;
 
         randomGenerator = new Random();
+        //TODO: Extract this logic into level builder
         level = new Level();
         
         level.create(new PlayerShip(0, 0, 100, 100));
@@ -48,6 +49,7 @@ public class GameManager {
         // Always add player before adding camera
         Vec2 center = new Vec2(renderer.getWidth(), renderer.getHeight()).multiply(0.5);
         Camera camera = new FollowerCamera(level.getPlayer(), center, 2);
+        camera.setZoom(1);
         renderer.setActiveCamera(camera);
     }
 

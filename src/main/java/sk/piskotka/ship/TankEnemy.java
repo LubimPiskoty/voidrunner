@@ -44,5 +44,8 @@ public class TankEnemy extends EnemyShip {
     public void draw(Renderer ctx) {
         super.draw(ctx);
         ctx.drawShape(this, getShape(), Color.DARKGREEN);
+        for(Transform gunPoint : gunPoints)
+            ctx.drawArrow(gunPoint.getGlobalPos(), Vec2.fromHeading(gunPoint.getRotation()).multiply(20), Color.GREEN);
+
     }
 }

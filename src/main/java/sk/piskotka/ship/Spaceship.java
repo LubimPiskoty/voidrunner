@@ -1,6 +1,8 @@
 package sk.piskotka.ship;
 
+import javafx.scene.paint.Color;
 import sk.piskotka.components.HealthComponent;
+import sk.piskotka.effects.SparksEffect;
 import sk.piskotka.guns.Timer;
 import sk.piskotka.logger.Logger;
 import sk.piskotka.physics.PhysicsBody;
@@ -43,8 +45,11 @@ public abstract class Spaceship extends PhysicsBody{
     
     public void takeDamage(float amount){
         health.reduceHealth(amount);
+        Create(new SparksEffect(getGlobalPos(), Color.RED, 0.5, 2));
         if (health.isDead()){
             Logger.logInfo(getClass(), "Object health was reduced to 0");
+            Create(new SparksEffect(getGlobalPos(), Color.RED, 2, 4));
+            Create(new SparksEffect(getGlobalPos(), Color.ORANGE, 1.2, 3));
             Destroy(this);
         }
     }

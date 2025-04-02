@@ -2,6 +2,7 @@ package sk.piskotka.ship;
 
 import javafx.scene.paint.Color;
 import sk.piskotka.GameManager;
+import sk.piskotka.physics.Transform;
 import sk.piskotka.physics.Vec2;
 import sk.piskotka.projectile.PiercingAmmo;
 import sk.piskotka.projectile.Projectile;
@@ -10,11 +11,14 @@ import sk.piskotka.shapes.TriangleShape;
 
 public class CruiserEnemy extends EnemyShip {
     private double aimSpeed;
+    private Transform nose;
 
     public CruiserEnemy(double x, double y) {
         super(x, y, 100, 1, 5, 5);
         aimSpeed = 0.5;
-        setShape(new TriangleShape(0, 0, 40));
+        int size = 30;
+        setShape(new TriangleShape(-10, 0, size));
+        nose = new Transform(Vec2.RIGHT().multiply(size).subtract(new Vec2(size/2, 0)), this);
     }
 
     @Override
@@ -40,6 +44,7 @@ public class CruiserEnemy extends EnemyShip {
     public void draw(Renderer ctx) {
         super.draw(ctx);
         ctx.drawShape(this, getShape(), Color.DARKBLUE);
+        ctx.drawArrow(nose.getGlobalPos(), nose.forward().multiply(50), Color.BLUE);
     }
     
 }

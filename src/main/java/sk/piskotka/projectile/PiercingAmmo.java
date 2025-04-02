@@ -42,7 +42,7 @@ public class PiercingAmmo extends Projectile{
         setVelocity(getVelocity().multiply(0.65));
         damage /= 2;
         deathTimer.tick(0.6);
-        Create(new SparksEffect(getGlobalPos(), Color.CYAN, deathTimer.remainingTime()/2, 20));
+        Create(new SparksEffect(getGlobalPos(), Color.CYAN, deathTimer.remainingTime()/2, 1));
 
     }
     

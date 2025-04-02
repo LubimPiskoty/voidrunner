@@ -10,7 +10,7 @@ public abstract class Camera{
     public double getZoom() {return zoom;}
     public void setZoom(double zoom) {this.zoom = zoom;}
 
-    public Vec2 getPosition() {return position;}
+    public Vec2 getPosition() {return position.multiply(zoom);}
 
     protected Camera(Vec2 position) {
         this.position = position;

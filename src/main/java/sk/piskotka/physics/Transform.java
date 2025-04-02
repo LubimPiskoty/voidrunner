@@ -59,6 +59,10 @@ public class Transform {
         //TODO: Possible memory leak
     }
 
+    public Vec2 forward(){
+        return Vec2.fromHeading(getRotation());
+    }
+
     public Vec2 getLocalPos() {
         return position;
     }
@@ -67,7 +71,10 @@ public class Transform {
     }
 
     public double getRotation(){
-        return rotation;
+        if (parent.isRoot())
+            return rotation;
+        else
+            return rotation + parent.getRotation();
     }
 
     public void setRotation(double rotation){

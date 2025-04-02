@@ -2,7 +2,7 @@ package sk.piskotka.shapes;
 
 public class TriangleShape extends PolygonShape {
 
-    public TriangleShape(int x, int y, int r) {
-        super(x, y, r, 3);
+    public TriangleShape(double x, double y, double arrowSize) {
+        super(x, y, arrowSize, 3);
     }    
 }

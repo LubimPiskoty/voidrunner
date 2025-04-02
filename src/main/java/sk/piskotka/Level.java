@@ -90,7 +90,7 @@ public class Level {
     }
     
     public void render(Renderer ctx){
-        ctx.clearBackground(Color.web("1b1b1b").darker());
+        ctx.clearBackground(Color.BLACK);
         // Create background paralax
 
         for(Transform object : objects)

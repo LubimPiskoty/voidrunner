@@ -1,9 +1,5 @@
 package sk.piskotka.physics;
 
-import java.util.Random;
-
-import sk.piskotka.GameManager;
-
 public final class Vec2 {
     private double x, y;
 
@@ -91,8 +87,7 @@ public final class Vec2 {
     public static Vec2 RIGHT() { return new Vec2(1, 0); }
 
     public static Vec2 randomUnit() {
-        Random rand = GameManager.getInstance().getRandomGenerator();
-        Vec2 v = new Vec2(rand.nextDouble() - 0.5, rand.nextDouble() - 0.5);
+        Vec2 v = new Vec2(Math.random() - 0.5, Math.random() - 0.5);
         return v.normalized();
     }
 

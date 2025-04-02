@@ -27,7 +27,7 @@ public class HealthComponent extends Component{
     public void increaseHealth(float amount){health = Math.min(maxHealth, health+amount);}
 
     public void drawHealth(Renderer ctx, Vec2 position){
-        ctx.drawProgressbar(position.add(Vec2.UP().multiply(50)), 50, getPercentage(), Color.WHITESMOKE, Color.GREEN);
+        ctx.drawProgressbar(position.add(Vec2.UP().multiply(100)), 50, getPercentage(), Color.DARKGREEN, Color.LIMEGREEN);
     }
     
 }
