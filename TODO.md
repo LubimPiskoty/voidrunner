@@ -6,7 +6,7 @@
 - [x] Make 2 projectile classes
 - [x] Implement health and damage taking
 - [x] Try to add bloom and add effects
-- [] Fix zoom on camera adn healthbar progress is buggy, FIX TankEnemy shooting dir
+- [x] Fix zoom on camera adn healthbar progress is buggy, FIX TankEnemy shooting dir
 - [] Make tests for player class
 - [] Comment whole codebase for javadoc
 - [] Upload to school github

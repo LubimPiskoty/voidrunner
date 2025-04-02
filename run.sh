@@ -1,1 +1,1 @@
-mvn javafx:run -DskipTests -Dmaven.test.skip -Dmaven.javadoc.skip=true
+mvn javafx:run -f "pom.xml" -DskipTests -Dmaven.test.skip -Dmaven.javadoc.skip=true

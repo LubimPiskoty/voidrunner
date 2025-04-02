@@ -37,7 +37,7 @@ public class GameManager {
         this.renderer = renderer;
 
         randomGenerator = new Random();
-        //TODO: Extract this logic into level builder
+        //TODO: Extract this logic into level builder   
         level = new Level();
         
         level.create(new PlayerShip(0, 0, 100, 100));
@@ -49,7 +49,7 @@ public class GameManager {
         // Always add player before adding camera
         Vec2 center = new Vec2(renderer.getWidth(), renderer.getHeight()).multiply(0.5);
         Camera camera = new FollowerCamera(level.getPlayer(), center, 2);
-        camera.setZoom(1);
+        camera.setZoom(0.6);
         renderer.setActiveCamera(camera);
     }
 
@@ -76,7 +76,9 @@ public class GameManager {
             level.printLevelHierarchy();
 
         player.move(inputVec.normalized());
-        player.aim(mousePos.add(renderer.getActiveCamera().getPosition()));
+        mousePos = mousePos.add(renderer.getActiveCamera().getPosition()).multiply(1/renderer.getActiveCamera().getZoom());
+        Logger.logDebug(getClass(), "Mouse pos is: " + mousePos);
+        player.aim(mousePos);
     }
 
     public void run(List<String> inputs, Vec2 mousePos, double dt) {
@@ -84,7 +86,7 @@ public class GameManager {
         if (isRunning){
             processEvents(inputs, mousePos);
             level.update(dt);
-            renderer.getActiveCamera().update(dt);
+            renderer.getActiveCamera().update(dt);  
             level.render(renderer);
         }
     }

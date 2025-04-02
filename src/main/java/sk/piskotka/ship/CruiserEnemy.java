@@ -16,7 +16,7 @@ public class CruiserEnemy extends EnemyShip {
     public CruiserEnemy(double x, double y) {
         super(x, y, 100, 1, 5, 5);
         aimSpeed = 0.5;
-        int size = 30;
+        int size = 40;
         setShape(new TriangleShape(-10, 0, size));
         nose = new Transform(Vec2.RIGHT().multiply(size).subtract(new Vec2(size/2, 0)), this);
     }

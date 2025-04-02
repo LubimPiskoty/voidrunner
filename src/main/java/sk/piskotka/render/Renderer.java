@@ -2,7 +2,7 @@ package sk.piskotka.render;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Bloom;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.paint.Color;
 import sk.piskotka.camera.Camera;
 import sk.piskotka.effects.Particle;
@@ -30,8 +30,9 @@ public class Renderer {
         this.height = height;
         // set up pixel buffer
         ctx = canvas.getGraphicsContext2D();
-        // ctx.setGlobalBlendMode(BlendMode.SRC_OVER);
-        ctx.setEffect(new Bloom(0.0));
+        canvas.setCache(true);
+        ctx.setGlobalBlendMode(BlendMode.SRC_OVER);
+        // canvas.setEffect(new Bloom(0.1)); //! Soooo sloooow idk why
     }
 
     public void clearBackground(Color color){
@@ -68,18 +69,24 @@ public class Renderer {
         ctx.fillRoundRect(position.getX()-length/2+1, position.getY()+1, progress, length/10-2, 4, 4);
     }
     public void drawParticle(Particle p, Color color, double lifePercentage) {
+        
+        //Ease in expo
+        lifePercentage = (Math.pow(2, 8*lifePercentage) - 1) / 255;
+
         Vec2 position = activeCamera.applyCamera(p.getPos());
         //TODO: Add easing function
-        Color newColor = color.deriveColor(0, 1, 1, 1-lifePercentage);
-        // Logger.logDebug(getClass(), "New color: " + newColor);
-        ctx.setStroke(newColor);
-        ctx.strokeRect(position.getX(), position.getY(), 1, 1);
+        Color newColor = color.interpolate(Color.TRANSPARENT, lifePercentage);
+        double size = 5 * (1-lifePercentage) + 1;
+        size *= activeCamera.getZoom();
+        ctx.setFill(newColor);
+        ctx.fillOval(position.getX()-size/2, position.getY()-size/2, size, size);
         // ctx.getPixelWriter().setColor((int)position.getX(), (int)position.getY(), newColor);
         //! Why does this way of drawing ignore transparency?
     }
 
     public void drawArrow(Vec2 position, Vec2 vector, Color color){
         position = activeCamera.applyCamera(position);
+        vector = vector.multiply(activeCamera.getZoom());
         ctx.setStroke(color);
         ctx.setFill(color);
         ctx.strokeLine(position.getX(), position.getY(), position.getX()+vector.getX(), position.getY()+vector.getY());

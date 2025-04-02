@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
 package sk.piskotka;
 import java.util.ArrayList;
 
@@ -87,19 +83,31 @@ public class App extends Application{
                     input.remove(event.getButton().toString());
             }
         });
-        
         // Game loop
         Renderer renderer = new Renderer(canvas, WIDTH, HEIGHT);
         GameManager gameManager = new GameManager(renderer);
         new AnimationTimer()
         {
+            double targetMs = 0.001;
             long lastNanoTime = System.nanoTime();
+            double low = 0;
+            int counter = 0;
             public void handle(long currentNanoTime)
             {
                 double dt = (currentNanoTime - lastNanoTime) / 1000000000.0;
-                stage.setTitle(String.format("Gametitle: %.2fms", dt*1000));
-                gameManager.run(input, mousePos, dt);
-                lastNanoTime = currentNanoTime;
+                if (dt >= targetMs){
+                    if (counter > 20){
+                        stage.setTitle(String.format("Gametitle: %.2fms", low*1000));
+                        low = 0;
+                        counter = 0;
+                    }
+                    gameManager.run(input, mousePos, dt);
+                    lastNanoTime = currentNanoTime;
+                    
+                    if (dt > low)
+                        low = dt;
+                    counter++;
+                }
             }
         }.start();
         stage.show();

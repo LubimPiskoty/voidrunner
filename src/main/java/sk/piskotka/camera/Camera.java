@@ -18,11 +18,11 @@ public abstract class Camera{
     }
 
     public Shape applyCamera(Shape shape){
-        return shape.moved(getPosition().multiply(-1));
+        return shape.scaled(zoom).moved(getPosition().multiply(-1));
     }
 
     public Vec2 applyCamera(Vec2 point){
-        return point.add(getPosition().multiply(-1));
+        return point.multiply(zoom).add(getPosition().multiply(-1));
     }
 
     public void update(double dt){}
