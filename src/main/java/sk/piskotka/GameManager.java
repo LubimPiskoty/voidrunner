@@ -1,11 +1,13 @@
 package sk.piskotka;
 
-import java.util.List;
 import java.util.Random;
 
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import sk.piskotka.camera.Camera;
 import sk.piskotka.camera.FollowerCamera;
 import sk.piskotka.enviroment.Asteroid;
+import sk.piskotka.input.Controller;
 import sk.piskotka.logger.Logger;
 import sk.piskotka.physics.Vec2;
 import sk.piskotka.render.Renderer;
@@ -53,38 +55,37 @@ public class GameManager {
         renderer.setActiveCamera(camera);
     }
 
-    void processEvents(List<String> inputs, Vec2 mousePos){
+    void processEvents(Controller controller){
         PlayerShip player = level.getPlayer();
         Vec2 inputVec = Vec2.ZERO();
-        if (inputs.contains("W"))
+        if (controller.isPressed(KeyCode.W))
             inputVec = inputVec.add(Vec2.DOWN());
-        if (inputs.contains("S"))
+        if (controller.isPressed(KeyCode.S))
             inputVec = inputVec.add(Vec2.UP());
-        if (inputs.contains("A"))
+        if (controller.isPressed(KeyCode.A))
             inputVec = inputVec.add(Vec2.LEFT());
-        if (inputs.contains("D"))
+        if (controller.isPressed(KeyCode.D))
             inputVec = inputVec.add(Vec2.RIGHT());
-        if (inputs.contains("PRIMARY"))
+        if (controller.isPressed(MouseButton.PRIMARY))
             player.attemptToShoot();
         
         //Toggle debug mode
-        if (inputs.contains("G"))
-            this.isDebug = true;
-        if (inputs.contains("H"))
-            this.isDebug = false;
-        if (inputs.contains("H"))
+        if (controller.isJustPressed(KeyCode.G))
+            this.isDebug = !this.isDebug;
+
+        if (controller.isJustPressed(KeyCode.H))
             level.printLevelHierarchy();
 
         player.move(inputVec.normalized());
-        mousePos = mousePos.add(renderer.getActiveCamera().getPosition()).multiply(1/renderer.getActiveCamera().getZoom());
-        Logger.logDebug(getClass(), "Mouse pos is: " + mousePos);
+        Vec2 mousePos = controller.getMousePos().add(renderer.getActiveCamera().getPosition())
+                            .multiply(1/renderer.getActiveCamera().getZoom());
         player.aim(mousePos);
     }
 
-    public void run(List<String> inputs, Vec2 mousePos, double dt) {
+    public void run(Controller controller, double dt) {
         //System.out.println("Events: " + inputs);
         if (isRunning){
-            processEvents(inputs, mousePos);
+            processEvents(controller);
             level.update(dt);
             renderer.getActiveCamera().update(dt);  
             level.render(renderer);

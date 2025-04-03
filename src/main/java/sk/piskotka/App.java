@@ -1,16 +1,11 @@
 package sk.piskotka;
-import java.util.ArrayList;
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import sk.piskotka.physics.Vec2;
+import sk.piskotka.input.Controller;
 import sk.piskotka.render.Renderer;
 /**
  *
@@ -32,59 +27,9 @@ public class App extends Application{
         Scene scene = new Scene(new Group(canvas));
         stage.setScene(scene);
 
-        // Input handeling
-        ArrayList<String> input = new ArrayList<String>();
-        Vec2 mousePos = Vec2.ZERO();
-        scene.setOnKeyPressed(
-            new EventHandler<KeyEvent>()
-            {
-                public void handle(KeyEvent e)
-                {
-                    String code = e.getCode().toString();
-                    // only add once... prevent duplicates 
-                    if ( !input.contains(code) )
-                        input.add( code );
-                }
-            });
-        scene.setOnKeyReleased(
-            new EventHandler<KeyEvent>()
-            {
-                public void handle(KeyEvent e)
-                {
-                    String code = e.getCode().toString();
-                    input.remove( code );
-                }
-            });
-        scene.setOnMouseMoved(
-            new EventHandler<MouseEvent>()
-            {
-                public void handle(MouseEvent event) {
-                    mousePos.set(event.getSceneX(), event.getSceneY());
-                }
-            });
-        scene.setOnMousePressed(
-            new EventHandler<MouseEvent>()
-            {
-                public void handle(MouseEvent event) {
-                    input.add(event.getButton().toString());
-                }
-            });
-        scene.setOnMouseDragged(
-            new EventHandler<MouseEvent>()
-            {
-                public void handle(MouseEvent event) {
-                    mousePos.set(event.getSceneX(), event.getSceneY());
-                }
-            });
-        scene.setOnMouseReleased(
-            new EventHandler<MouseEvent>()
-            {
-                public void handle(MouseEvent event) {
-                    input.remove(event.getButton().toString());
-            }
-        });
         // Game loop
         Renderer renderer = new Renderer(canvas, WIDTH, HEIGHT);
+        Controller controller = new Controller(scene);
         GameManager gameManager = new GameManager(renderer);
         new AnimationTimer()
         {
@@ -96,12 +41,13 @@ public class App extends Application{
             {
                 double dt = (currentNanoTime - lastNanoTime) / 1000000000.0;
                 if (dt >= targetMs){
-                    if (counter > 20){
-                        stage.setTitle(String.format("Gametitle: %.2fms", low*1000));
+                    if (counter > 50){
+                        stage.setTitle(String.format("Gametitle: %03d fps %.2fms", (int)(1/low), low*1000));
                         low = 0;
                         counter = 0;
                     }
-                    gameManager.run(input, mousePos, dt);
+                    gameManager.run(controller, dt);
+                    controller.update();
                     lastNanoTime = currentNanoTime;
                     
                     if (dt > low)
