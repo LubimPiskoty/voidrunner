@@ -10,6 +10,9 @@ import sk.piskotka.physics.Vec2;
 
 public abstract class Spaceship extends PhysicsBody{
     protected HealthComponent health;
+    public double getHealth(){return health.getHealth();}
+    public double getMaxHealth(){return health.getMaxHealth();}
+
     protected Timer attackTimer;
 
     protected Spaceship(double x, double y, float speed, float attackSpeed, float health, float maxHealth) {
@@ -39,7 +42,7 @@ public abstract class Spaceship extends PhysicsBody{
     protected abstract void shoot();
 
     public void move(Vec2 input) {
-        ApplyForce(input.multiply(speed));
+        SetVelocity(input.multiply(speed));
     }
 
     

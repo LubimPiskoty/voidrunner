@@ -99,4 +99,13 @@ public final class Vec2 {
     public String toString() {
         return String.format("(%.2f, %.2f)", x, y);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Vec2){
+            Vec2 other = (Vec2)obj;
+            return other.x == x && other.y == y;
+        }
+        return false;
+    }
 }

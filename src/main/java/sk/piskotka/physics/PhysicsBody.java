@@ -43,11 +43,20 @@ public abstract class PhysicsBody extends Transform implements Drawable, Collisi
         acc = acc.add(vec);   
     }
 
+    public void SetVelocity(Vec2 vel){
+        this.vel.set(vel);
+        limitVelocity();
+    }
+
+    private void limitVelocity(){
+        if (vel.length() > maxSpeed)
+            vel = vel.normalized().multiply(maxSpeed);
+    }
+
     public void update(double dt){
     vel = vel.add(acc);
         
-    if (vel.length() > maxSpeed)
-    vel = vel.normalized().multiply(maxSpeed);
+    limitVelocity();
     
     setLocalPos(getLocalPos().add(vel.multiply(dt)));
     acc = acc.multiply(0);

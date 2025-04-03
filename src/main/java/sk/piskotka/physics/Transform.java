@@ -137,10 +137,16 @@ public class Transform {
     public void update(double dt){};
 
     public static void Create(Transform transform){
-        GameManager.getLevel().create(transform);
-    }
-
-    public static void Destroy(Transform transform){
-        GameManager.getLevel().destroy(transform);
+        if (GameManager.getLevel() == null)
+            Logger.logError(Transform.class, "Transform is not in level and therefore cannot create objects");
+        else
+            GameManager.getLevel().create(transform);
+        }
+        
+        public static void Destroy(Transform transform){
+        if (GameManager.getLevel() == null)
+            Logger.logError(Transform.class, "Transform is not in level and therefore cannot destroy objects");
+        else
+            GameManager.getLevel().destroy(transform);
     }
 }

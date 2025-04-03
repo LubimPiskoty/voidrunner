@@ -10,7 +10,8 @@ public class HealthComponent extends Component{
     private float health;
     public float getHealth() {return health;}
     private float maxHealth;
-
+    public float getMaxHealth() {return maxHealth;}
+    
     public HealthComponent(PhysicsBody pBody, float health, float maxHealth){
         super(pBody);
         if (health > maxHealth || maxHealth <= 0 || health < 0)
@@ -23,7 +24,7 @@ public class HealthComponent extends Component{
 
     public boolean isDead(){return health <= 0;}
 
-    public void reduceHealth(float amount){health -= amount;}
+    public void reduceHealth(float amount){health = Math.max(0, health-amount);}
     public void increaseHealth(float amount){health = Math.min(maxHealth, health+amount);}
 
     public void drawHealth(Renderer ctx, Vec2 position){

@@ -97,6 +97,10 @@ public class GameManager {
     }
 
     public static Level getLevel(){
+        if (instance == null){
+            Logger.logWarning(GameManager.class, "Cannot get level because the is not GameManager instance");
+            return null;
+        }
         return instance.level;
     }
 }

@@ -13,15 +13,12 @@ public class PlayerShip extends Spaceship{
     private Transform gunTransform;
 
     public PlayerShip(int x, int y, float health, float maxHealth) {
-        super(x, y, 10, 5, health, maxHealth);
+        super(x, y, 1000, 5, health, maxHealth);
         setShape(new PolygonShape(0, 0, 50, 3));
         nose = new PolygonShape(0, 0, 9, 4);
         
         gunTransform = new Transform(new Vec2(50, 0), this);
     }
-
-
-
 
     @Override
     public void shoot() {
