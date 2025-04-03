@@ -5,7 +5,7 @@ import sk.piskotka.render.Renderer;
 import sk.piskotka.shapes.PolygonShape;
 
 public class Asteroid extends EnvironmentObject {
-    private double rotationSpeed;
+    private final double rotationSpeed;
     public Asteroid(int x, int y, double rotationSpeed) {
         super(x, y);
         this.rotationSpeed = rotationSpeed;
