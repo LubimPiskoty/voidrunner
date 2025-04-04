@@ -65,7 +65,7 @@ public class App extends Application {
 
         // Start the game loop
         new AnimationTimer() {
-            double targetMs = 0.001;  // Target frame time in seconds
+            double targetMs = 0.000;  // Target frame time in seconds
             long lastNanoTime = System.nanoTime();
             double low = 0;  // Tracks the lowest delta time (frame time)
             int counter = 0; // Counts frames to update the FPS display
