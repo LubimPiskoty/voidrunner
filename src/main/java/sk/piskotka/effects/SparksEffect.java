@@ -12,15 +12,22 @@ public class SparksEffect extends Effect{
         this.color = color;
         int count = (int)Math.pow(effectStrength, 2)*10;
         for(int i = 0; i < count; i++){
-            double strength = Math.random();
-            pointCloud.add(new Particle(position, Vec2.randomUnit().multiply(strength*effectStrength*50+effectStrength*10+10)));
+            double strength = Math.random(); 
+            double lifetimeChange = Math.pow(Math.random(),3)/2+1;
+            pointCloud.add(
+                new Particle(
+                    position, 
+                    Vec2.randomUnit().multiply(strength*effectStrength*50+effectStrength*10+10), 
+                    duration*lifetimeChange
+                    )
+                );
         }
     }
 
     @Override
     public void draw(Renderer ctx) {
         for(Particle p : pointCloud)
-            ctx.drawParticle(p, color, deathTimer.completion());
+            ctx.drawParticle(p, color);
     }
     
 }

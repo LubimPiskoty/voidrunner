@@ -7,7 +7,7 @@ import sk.piskotka.physics.Vec2;
 import sk.piskotka.projectile.PiercingAmmo;
 import sk.piskotka.projectile.Projectile;
 import sk.piskotka.render.Renderer;
-import sk.piskotka.shapes.TriangleShape;
+import sk.piskotka.shapes.PolygonShape;
 
 /**
  * The {@code CruiserEnemy} class represents an enemy cruiser ship that moves and aims
@@ -39,7 +39,7 @@ public class CruiserEnemy extends EnemyShip {
         super(x, y, 100, 1, 5, 5);  // Calls the constructor of EnemyShip with specific parameters
         aimSpeed = 0.5; // Speed at which the enemy aims towards the player
         int size = 40;  // Size of the cruiser enemy
-        setShape(new TriangleShape(-10, 0, size));  // Set the shape of the cruiser to a triangle
+        setShape(new PolygonShape(-size / 2, 0, size, 8));
         nose = new Transform(Vec2.RIGHT().multiply(size).subtract(new Vec2(size / 2, 0)), this); // Position the nose of the cruiser
     }
 

@@ -3,18 +3,17 @@ package sk.piskotka.effects;
 import java.util.ArrayList;
 import java.util.List;
 
-import sk.piskotka.guns.Timer;
 import sk.piskotka.physics.Transform;
 import sk.piskotka.physics.Vec2;
 import sk.piskotka.render.Drawable;
 
 /**
  * Represents an abstract effect in the game, which is drawable and has a position.
- * The effect consists of a collection of particles and has a limited lifespan.
+ * The effect consists of a collection of particles.
  */
 public abstract class Effect extends Transform implements Drawable {
     protected List<Particle> pointCloud;
-    protected Timer deathTimer;
+    protected double duration;
 
     /**
      * Constructs an Effect with a specified position and duration.
@@ -25,7 +24,7 @@ public abstract class Effect extends Transform implements Drawable {
     public Effect(Vec2 position, double duration) {
         super(position);
         pointCloud = new ArrayList<>();
-        deathTimer = new Timer(duration);
+        this.duration = duration;
     }
 
     /**
@@ -36,12 +35,25 @@ public abstract class Effect extends Transform implements Drawable {
      */
     @Override
     public void update(double dt) {
-        if (deathTimer.isReady())
-            Destroy(this);
-        else {
-            deathTimer.tick(dt);
-            for (Particle particle : pointCloud)
-                particle.update(dt);
+        for (int i = 0; i < pointCloud.size(); i++){
+            Particle particle = pointCloud.get(i);
+            particle.update(dt);
+            if (particle.getLifePercentage() < 0){
+                DestroyParticle(particle);
+                i--;
+            }
         }
+        if (pointCloud.isEmpty())
+            Destroy(this);
+    }
+
+    
+    /**
+     * Removes the specified particle from the point cloud.
+     *
+     * @param particle the particle to be removed from the point cloud
+     */
+    protected void DestroyParticle(Particle particle){
+        pointCloud.remove(particle);
     }
 }

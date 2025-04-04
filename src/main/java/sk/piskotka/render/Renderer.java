@@ -115,8 +115,8 @@ public class Renderer {
      * @param color The color of the particle at the start of its life.
      * @param lifePercentage The percentage of the particle's life (from 0.0 to 1.0).
      */
-    public void drawParticle(Particle p, Color color, double lifePercentage) {
-        lifePercentage = (Math.pow(2, 8*lifePercentage) - 1) / 255;
+    public void drawParticle(Particle p, Color color) {
+        double lifePercentage = (Math.pow(2, 8*p.getLifePercentage()) - 1) / 255;
 
         Vec2 position = activeCamera.applyCamera(p.getPos());
         Color newColor = color.interpolate(Color.TRANSPARENT, lifePercentage);

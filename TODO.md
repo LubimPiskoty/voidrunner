@@ -9,7 +9,7 @@
 - [x] Fix zoom on camera adn healthbar progress is buggy, FIX TankEnemy shooting dir
 - [x] Player controller class
 - [x] Make tests for player class
-- [] Comment whole codebase for javadoc
+- [x] Comment whole codebase for javadoc
 - [] Upload to school github
 - [] Write the documentation
 
@@ -25,13 +25,14 @@
 - [x] Projectile working
 - [x] Despawning if too far
 - [x] Timer class
+- [x] ParticleSystem
 - [] Collisions
 - [] Effect will be a builder class type
 - [] Change physics simulation for force based system (include mass)
 - [] Color manager (color pallet settings)
 - [] Spawner manager
+- [] More particle settings
 - [] Procedural asteroids
-- [] ParticleSystem
 - [] Add exeption handlers (No clue where i could add this)
 - [] Add object names? maybe
 

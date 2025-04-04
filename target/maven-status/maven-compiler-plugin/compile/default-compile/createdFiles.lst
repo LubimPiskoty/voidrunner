@@ -6,6 +6,7 @@ sk/piskotka/ship/CruiserEnemy.class
 sk/piskotka/shapes/Shape.class
 sk/piskotka/input/InputState.class
 sk/piskotka/shapes/RectangleShape.class
+sk/piskotka/Main.class
 sk/piskotka/App.class
 sk/piskotka/components/Component.class
 sk/piskotka/render/Renderer.class
